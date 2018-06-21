@@ -1,18 +1,35 @@
-// import * as d3 from 'd3';
-//
-// export function straightLine() {
-//   return d3.line()
-//     .x(function (d) {
-//       return d.x;
-//     })
-//     .y(function (d) {
-//       return d.y;
-//     });
-// }
-//
-// export function arcLine() {
-//   return d3.line()
-//     .x(function(d) { return d.x; })
-//     .y(function(d) { return d.y; })
-//     .curve(d3.curveBasis);
-// }
+import * as d3 from 'd3';
+import {GridPoint} from './GridPoint';
+
+export function straightLine(points: Array<GridPoint>) {
+  const tmpFunc = d3.line()
+    .x(function (d) {
+      return d[0];
+    })
+    .y(function (d) {
+      return d[1];
+    });
+
+  const tarray: Array<[number, number]> = [];
+  for (let i = 0; i < points.length; i++) {
+    tarray.push([
+      points[i].x, points[i].y
+    ]);
+  }
+  return tmpFunc(tarray);
+}
+
+export function arcLine(points: Array<GridPoint>) {
+  const tmpFunc = d3.line()
+    .x(function(d) { return d[0]; })
+    .y(function(d) { return d[1]; })
+    .curve(d3.curveBasis);
+
+  const tarray: Array<[number, number]> = [];
+  for (let i = 0; i < points.length; i++) {
+    tarray.push([
+      points[i].x, points[i].y
+    ]);
+  }
+  return tmpFunc(tarray);
+}
