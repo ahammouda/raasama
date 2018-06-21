@@ -10,15 +10,6 @@ import { Frame } from '../../common-simulation/Frame';
 import { RenderItem } from '../../common-simulation/RenderItem';
 import { isNullOrUndefined } from 'util';
 
-// const straightLine = d3.line()
-//   .x(function(d) { return d.x; })
-//   .y(function(d) { return d.y; });
-//
-// const arcLine = d3.line()
-//     .x(function(d) { return d.x; })
-//     .y(function(d) { return d.y; })
-//     .curve(d3.curveBasis);
-
 @Component({
   selector: 'app-algo-sim',
   templateUrl: './algo-sim.component.html',
@@ -602,125 +593,7 @@ export class AlgoSimComponent implements OnInit {
   setWidth(rectangle) {
     rectangle.width = rectangle.label.length * this.BW + this.BW;
   }
-
-  // drawTextBox(rectangle: Rectangle) {
-  //   d3.select('svg')
-  //     .append('rect')
-  //     .attr('id', rectangle.id)
-  //     .attr('rx', rectangle.rx)
-  //     .attr('ry', rectangle.ry)
-  //     .attr('x', rectangle.x + this.x_orig)
-  //     .attr('y', rectangle.y + this.y_orig)
-  //     .attr('width', rectangle.width)
-  //     .attr('height', rectangle.height)
-  //     .attr('fill', rectangle.color)
-  //     .attr('stroke', 'black')
-  //     .attr('opacity', '0.5');
-  //   d3.select('svg')
-  //     .append('text')
-  //     .attr('id', `l-${rectangle.id}`)
-  //     .attr('x', rectangle.x + this.x_orig + rectangle.width / 2)
-  //     .attr('y', rectangle.y + this.y_orig + rectangle.height / 2 + this.center_padding)
-  //     .attr('text-anchor', 'middle')
-  //     .text( rectangle.label );
-  // }
-  //
-  // attachBBox(rectangle: Rectangle, keyStr: string) {
-  //   // Creating the box
-  //   // This state gets lost short of referencing the overwritten label
-  //   const bbox: Rectangle = {
-  //     id: 'bbox-0',
-  //     x: 0,
-  //     y: rectangle.y + rectangle.height,
-  //     rx: 0,
-  //     ry: 0,
-  //     width: rectangle.width,
-  //     height: this.TB_H * 2,
-  //     color: 'green',
-  //     label: 'below'
-  //   };
-  //
-  //   // Creating the bar
-  //   const line_points: Array<GridPoint> = [];
-  //   line_points.push({
-  //     x: bbox.x + this.BW * 2 + this.x_orig,
-  //     y: bbox.y + this.y_orig
-  //   });
-  //   line_points.push({
-  //     x: bbox.x + this.BW * 2 + this.x_orig,
-  //     y: bbox.y + bbox.height + this.y_orig
-  //   });
-  //   // Drawing the bar
-  //   this.drawStraightEdge(line_points, 'bar-0');
-  //   // Drawing the box
-  //   // this.drawTextBox(bbox);
-  //   this.drawBBox(bbox, keyStr);
-  // }
-  //
-  // drawBBox(rectangle: Rectangle, keyStr: string) {
-  //   const val_buf = 4;
-  //
-  //   d3.select('svg')
-  //     .append('rect')
-  //     .attr('id', rectangle.id)
-  //     .attr('rx', rectangle.rx)
-  //     .attr('ry', rectangle.ry)
-  //     .attr('x', rectangle.x + this.x_orig)
-  //     .attr('y', rectangle.y + this.y_orig)
-  //     .attr('width', rectangle.width)
-  //     .attr('height', rectangle.height)
-  //     .attr('fill', rectangle.color)
-  //     .attr('stroke', 'black')
-  //     .attr('opacity', '0.5');
-  //
-  //   /* Draw Labels - SHOULD BE ABLE TO PARAMETERIZE THIS TO PERFORM OPS FOR ARBITRARY N-ROWS/COLS of 'theoretical data' */
-  //   // Key Label
-  //   d3.select('svg')
-  //     .append('text')
-  //     .attr('id', `l-key`)
-  //     .attr('x', rectangle.x + this.x_orig + val_buf ) // ** THIS + rectangle.width - val_buf could be the new source 'x'
-  //     .attr('y', rectangle.y + this.y_orig + this.BH )  // ** This could be the new source (+/- this.BH/2) 'y'
-  //     .attr('text-anchor', 'start')
-  //     .text( keyStr );
-  //     // .append('tspan')
-  //     // .attr('baseline-shift', 'sub')
-  //     // .attr('font-size', 10)
-  //     // .text('0')
-  //     // .select(function() {
-  //     //   return this.parentNode;
-  //     // })
-  //     // .insert('tspan')
-  //     // .text( ':' );
-  //
-  //
-  //   // Value Label (should be able to generalize and parameterize this in  a function for spitting out values)
-  //   d3.select('svg')
-  //     .append('text')
-  //     .attr('id', `l-value`)
-  //     .attr('x', rectangle.x + this.x_orig + this.BW * 2 + val_buf )
-  //     .attr('y', rectangle.y + this.y_orig + this.BH )
-  //     .attr('text-anchor', 'start')
-  //     .text( '...' );
-  //     // .append('tspan')
-  //     // .attr('baseline-shift', 'sub')
-  //     // .attr('font-size', 10)
-  //     // .text('0')
-  //     // .select(function() {
-  //     //   return this.parentNode;
-  //     // })
-  //     // .insert('tspan')
-  //     // .text( ',v' )
-  //     // .append('tspan')
-  //     // .attr('baseline-shift', 'sub')
-  //     // .attr('font-size', 10)
-  //     // .text('1')
-  //     // .select(function() {
-  //     //   return this.parentNode;
-  //     // })
-  //     // .insert('tspan')
-  //     // .text( ',...}' );
-  // }
-
+  
   attachBBoxRenderItems(rectangle: Rectangle, keyStr: string) {
     const val_buf = 4;
     const bbox: Rectangle = new Rectangle(
