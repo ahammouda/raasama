@@ -599,7 +599,7 @@ export class AlgoSimComponent implements OnInit {
     const bbox: Rectangle = new Rectangle(
       `${rectangle.id}-bbox`, // id
       0, // x
-      rectangle.y + rectangle.height, // u
+      rectangle.y + rectangle.height, // y
       0, 0, // rx,ry
       rectangle.width, // width
       this.TB_H * 2, // height

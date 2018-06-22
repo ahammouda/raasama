@@ -48,12 +48,14 @@ export class DrawingExamplesComponent implements OnInit {
   createTestFrame(): Frame {
     const testFrame = new Frame();
 
-    const textNodeOne: TextNode = new TextNode(this.gridMeta, 'n-0',
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 2,
       0,
       'blue', 'Firm'
     );
-    const textNodeTwo: TextNode = new TextNode(this.gridMeta, 'n-1',
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 8,
       'blue', 'Image'
@@ -78,7 +80,7 @@ export class DrawingExamplesComponent implements OnInit {
     nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
 
     const edge: Edge = new Edge(
-      'e-0', this.gridMeta, nodeOne, nodeTwo, ArcType.CURVE, ArrowType.EAST
+      'e-0', this.gridMeta, nodeOne, nodeTwo, ArcType.LINE_KINKED, ArrowType.EAST
     );
 
     const itemsThree = edge.getRenderItems();

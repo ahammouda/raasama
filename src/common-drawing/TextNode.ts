@@ -31,7 +31,6 @@ export class TextNode {
       isRounded
     );
 
-    // Note placement in bbox will be different, and that will be defined in the symbolicTable class
     this.textItem = new TextItem(
       `l-${nodeId}`,
       x + this.gridMeta.X_ORIGIN + this.nodeWidth / 2,
