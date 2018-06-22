@@ -593,7 +593,7 @@ export class AlgoSimComponent implements OnInit {
   setWidth(rectangle) {
     rectangle.width = rectangle.label.length * this.BW + this.BW;
   }
-  
+
   attachBBoxRenderItems(rectangle: Rectangle, keyStr: string) {
     const val_buf = 4;
     const bbox: Rectangle = new Rectangle(

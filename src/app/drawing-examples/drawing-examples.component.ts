@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import * as d3 from 'd3';
+
 import { TextItem } from '../../common-drawing/TextItem';
 import { TextNode } from '../../common-drawing/TextNode';
 import { Node } from '../../common-drawing/Node';
@@ -7,7 +9,10 @@ import { Node } from '../../common-drawing/Node';
 import { Frame } from '../../common-simulation/Frame';
 import { RenderItem } from '../../common-simulation/RenderItem';
 
-import * as d3 from 'd3';
+import { GridMeta } from '../../common-drawing/GridMeta';
+
+
+import { Edge, ArrowType, ArcType } from '../../common-drawing/Edge';
 
 @Component({
   selector: 'app-drawing-examples',
@@ -18,9 +23,7 @@ export class DrawingExamplesComponent implements OnInit {
   private static XORIG = -350;
   private static YORIG = -250;
 
-  // Dimensions of a single coordinate point of the cartesian grid represented by the svg viewport
-  private CH: number; // CH = Coodinate Height
-  private CW: number; // CW = Coordinate Width
+  private gridMeta: GridMeta;
 
   // Space between each node drawn on grid in both horizontal (GC) and vertical (GR) dimensions
   private GC: number; // GW = Grid Column
@@ -30,12 +33,60 @@ export class DrawingExamplesComponent implements OnInit {
 
   constructor() {
     // Single box to fit uppercase font-size = 10
-    this.CH = 22;
-    this.CW = 22;
+    this.gridMeta = {
+      X_ORIGIN: DrawingExamplesComponent.XORIG,
+      Y_ORIGIN: DrawingExamplesComponent.YORIG,
+      COORDINATE_WIDTH: 22,
+      COORDINATE_HEIGHT: 22
+    };
 
     // Arbitrary sizing for our pre-ordained purposes
-    this.GC = 3 * this.CW;
-    this.GR = 8 * this.CH;
+    this.GC = 3 * this.gridMeta.COORDINATE_WIDTH;
+    this.GR = 8 * this.gridMeta.COORDINATE_HEIGHT;
+  }
+
+  createTestFrame(): Frame {
+    const testFrame = new Frame();
+
+    const textNodeOne: TextNode = new TextNode(this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      0,
+      'blue', 'Firm'
+    );
+    const textNodeTwo: TextNode = new TextNode(this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 8,
+      'blue', 'Image'
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      testFrame.addItem(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      testFrame.addItem(itemsTwo[i]);
+    }
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const edge: Edge = new Edge(
+      'e-0', this.gridMeta, nodeOne, nodeTwo, ArcType.CURVE, ArrowType.EAST
+    );
+
+    const itemsThree = edge.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      testFrame.addItem(itemsThree[i]);
+    }
+
+    return testFrame;
   }
 
   ngOnInit() {
@@ -44,11 +95,7 @@ export class DrawingExamplesComponent implements OnInit {
       .attr('viewBox', '-350 -250 700 500')
       .classed('svg-content', true);
 
-    // Render a single text box
-    // 1. Construct TextNode
-    //    --> Constructs node (using legacy rectangle inputs)
-    //    --> Constructs textItem using refined legacy process
-
-    // Create renderItems from objects (potentially building their own toRenderItem methods)
+    const frame: Frame = this.createTestFrame();
+    frame.render();
   }
 }
