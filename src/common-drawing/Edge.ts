@@ -6,6 +6,7 @@ import { Node } from './Node';
 import { GridMeta } from './GridMeta';
 import { GridPoint } from './GridPoint';
 import { RenderItem } from '../common-simulation/RenderItem';
+import {copyObj} from "@angular/animations/browser/src/util";
 
 // TODO: Edge drawing is really something you should be digging into the literature to do better
 // TODO) (/checking out Bostock's code)
@@ -34,7 +35,7 @@ export enum ArrowType {
 
 export class Edge {
   // static size of arrow tip - TODO - make this an input for the constructor
-  private static ARROW_LEN = 10;
+  public static ARROW_LEN = 10;
   private id: string;
   private gridMeta: GridMeta;
   private source: Node;
@@ -79,6 +80,11 @@ export class Edge {
 
   getRenderItems(): Array<RenderItem> {
     this.edgePoints = this.getLinePoints();
+    // this.manualTarget.x =  this.manualTarget.x + this.gridMeta.X_ORIGIN;
+    // this.manualTarget.y =  this.manualTarget.y + this.gridMeta.Y_ORIGIN;
+    //
+    // this.manualSource.x =  this.manualSource.x + this.gridMeta.X_ORIGIN;
+    // this.manualSource.y =  this.manualSource.y + this.gridMeta.Y_ORIGIN;
 
     const arrowTipItem: RenderItem = new RenderItem(`tip-${this.id}`, 'svg', 'path');
     const edgeItem: RenderItem = new RenderItem(this.id, 'svg', 'path');
@@ -237,7 +243,9 @@ export class Edge {
           y: this.gridMeta.Y_ORIGIN + this.target.y
         };
       } else {
-        tip = this.manualTarget;
+        tip = new GridPoint();
+        tip.x = this.manualTarget.x;
+        tip.y = this.manualTarget.y;
       }
       wingLeft = {
         x: tip.x - Edge.ARROW_LEN / 2 ,
@@ -255,7 +263,9 @@ export class Edge {
           y: this.gridMeta.Y_ORIGIN + this.target.y + this.target.height
         };
       } else {
-        tip = this.manualTarget;
+        tip = new GridPoint();
+        tip.x = this.manualTarget.x;
+        tip.y = this.manualTarget.y;
       }
       wingLeft = {
         x: tip.x - Edge.ARROW_LEN / 2 ,
@@ -274,7 +284,9 @@ export class Edge {
           y: this.gridMeta.Y_ORIGIN + this.target.y + this.target.height / 2
         };
       } else {
-        tip = this.manualTarget;
+        tip = new GridPoint();
+        tip.x = this.manualTarget.x;
+        tip.y = this.manualTarget.y;
       }
       wingLeft = {
         x: tip.x + Edge.ARROW_LEN,
@@ -292,7 +304,9 @@ export class Edge {
           y: this.gridMeta.Y_ORIGIN + this.target.y + this.target.height / 2
         };
       } else {
-        tip = this.manualTarget;
+        tip = new GridPoint();
+        tip.x = this.manualTarget.x;
+        tip.y = this.manualTarget.y;
       }
       wingLeft = {
         x: tip.x - Edge.ARROW_LEN,
@@ -396,7 +410,16 @@ export class Edge {
     } else {
       this.sourcePoint = this.manualSource;
       this.targetPoint = this.manualTarget;
-
+      /* Assumption is that the arrow head has been drawn at this point, so the target should be adjusted */
+      if (this.arrowType === ArrowType.EAST) {
+        this.targetPoint.x = this.targetPoint.x + Edge.ARROW_LEN;
+      } else if (this.arrowType === ArrowType.WEST) {
+        this.targetPoint.x = this.targetPoint.x - Edge.ARROW_LEN;
+      } else if (this.arrowType === ArrowType.NORTH) {
+        this.targetPoint.y = this.targetPoint.y - Edge.ARROW_LEN;
+      } else if (this.arrowType === ArrowType.SOUTH) {
+        this.targetPoint.y = this.targetPoint.y + Edge.ARROW_LEN;
+      }
     }
     this.sourcePoint.x = this.sourcePoint.x + this.gridMeta.X_ORIGIN;
     this.sourcePoint.y = this.sourcePoint.y + this.gridMeta.Y_ORIGIN;

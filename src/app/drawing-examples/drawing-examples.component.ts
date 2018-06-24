@@ -14,6 +14,7 @@ import { BarBox } from '../../common-drawing/BarBox';
 
 
 import { Edge, ArrowType, ArcType } from '../../common-drawing/Edge';
+import {GridPoint} from "../../common-drawing/GridPoint";
 
 @Component({
   selector: 'app-drawing-examples',
@@ -102,13 +103,17 @@ export class DrawingExamplesComponent implements OnInit {
     const edge: Edge = new Edge(
       'e-0', this.gridMeta, nodeOne, nodeTwo, ArcType.LINE_KINKED, ArrowType.EAST
     );
-    // edge.updateSourceY(
-    //   barBoxOne.getFirstRowY()
-    // );
-    // edge.updateTargetY(
-    //   barBoxOne.getFirstRowY()
-    // );
+    const source: GridPoint = {x: null, y: null};
+    const target: GridPoint = {x: null, y: null};
+    source.x = barBoxOne.getFirstRowX() - this.gridMeta.X_ORIGIN;
+    source.y = barBoxOne.getFirstRowY() - this.gridMeta.Y_ORIGIN;
 
+    target.x = barBoxTwo.getFirstRowX(); // - this.gridMeta.X_ORIGIN;
+    target.y = barBoxTwo.getFirstRowY(); // - this.gridMeta.Y_ORIGIN;
+
+    edge.setManualTargets(
+      source, target
+    );
     const itemsThree = edge.getRenderItems();
     for (let i = 0; i < itemsThree.length; i++) {
       testFrame.addItem(itemsThree[i]);

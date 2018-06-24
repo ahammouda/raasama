@@ -83,6 +83,10 @@ export class BarBox {
     return this.textItemValues[0].y;
   }
 
+  getFirstRowX(): number {
+    return this.x + this.headeNode.width;
+  }
+
   initBar() {
     this.barPoints.push({
       x: this.barX,
