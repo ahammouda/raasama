@@ -14,7 +14,7 @@ import { BarBox } from '../../common-drawing/BarBox';
 
 
 import { Edge, ArrowType, ArcType } from '../../common-drawing/Edge';
-import {GridPoint} from "../../common-drawing/GridPoint";
+import {GridPoint} from '../../common-drawing/GridPoint';
 
 @Component({
   selector: 'app-drawing-examples',

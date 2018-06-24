@@ -6,7 +6,6 @@ import { Node } from './Node';
 import { GridMeta } from './GridMeta';
 import { GridPoint } from './GridPoint';
 import { RenderItem } from '../common-simulation/RenderItem';
-import {copyObj} from "@angular/animations/browser/src/util";
 
 // TODO: Edge drawing is really something you should be digging into the literature to do better
 // TODO) (/checking out Bostock's code)
@@ -70,22 +69,8 @@ export class Edge {
     this.manualTarget = target;
   }
 
-  updateSourceY(y: number): void {
-    this.sourcePoint.y = y;
-  }
-
-  updateTargetY(y: number): void {
-    this.targetPoint.y = y;
-  }
-
   getRenderItems(): Array<RenderItem> {
     this.edgePoints = this.getLinePoints();
-    // this.manualTarget.x =  this.manualTarget.x + this.gridMeta.X_ORIGIN;
-    // this.manualTarget.y =  this.manualTarget.y + this.gridMeta.Y_ORIGIN;
-    //
-    // this.manualSource.x =  this.manualSource.x + this.gridMeta.X_ORIGIN;
-    // this.manualSource.y =  this.manualSource.y + this.gridMeta.Y_ORIGIN;
-
     const arrowTipItem: RenderItem = new RenderItem(`tip-${this.id}`, 'svg', 'path');
     const edgeItem: RenderItem = new RenderItem(this.id, 'svg', 'path');
 
@@ -421,7 +406,12 @@ export class Edge {
         this.targetPoint.y = this.targetPoint.y + Edge.ARROW_LEN;
       }
     }
+    // TODO: This is inconsistent - why are you applying this to source only, and target hinges on a separate convention
+    // TODO) - retrace all function calls/operations necessary to draw an edge, and see if you can refactor
     this.sourcePoint.x = this.sourcePoint.x + this.gridMeta.X_ORIGIN;
     this.sourcePoint.y = this.sourcePoint.y + this.gridMeta.Y_ORIGIN;
+
+    // this.targetPoint.x = this.targetPoint.x + this.gridMeta.X_ORIGIN;
+    // this.targetPoint.y = this.targetPoint.y + this.gridMeta.Y_ORIGIN;
   }
 }
