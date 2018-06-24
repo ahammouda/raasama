@@ -1,9 +1,9 @@
 import { RenderItem } from '../common-simulation/RenderItem';
 
 export class TextItem {
-  id: string;
-  x: number;
-  y: number;
+  public id: string;
+  public x: number;
+  public y: number;
   textAnchor: string;
   textContent: string;
 

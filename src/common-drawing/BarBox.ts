@@ -31,7 +31,7 @@ export class BarBox {
   private barPoints: Array<GridPoint> = []; //
 
   constructor(gridMeta: GridMeta, color: string, headerNode: Node = null) {
-    if (isNullOrUndefined(headerNode)) {
+    if ( isNullOrUndefined(headerNode) ) {
       throw new Error('Stand alone BarBox not implemented yet!');
     }
 
@@ -39,7 +39,7 @@ export class BarBox {
     this.nodeHeight = this.gridMeta.COORDINATE_HEIGHT * BarBox.HEIGHT_MULTIPLIER;
 
     this.headeNode = headerNode;
-    this.id = `b-${this.headeNode.id}`
+    this.id = `b-${this.headeNode.id}`;
 
     this.x = this.gridMeta.X_ORIGIN + this.headeNode.x;
     this.y = this.gridMeta.Y_ORIGIN + this.headeNode.y  + this.headeNode.height;
@@ -55,6 +55,7 @@ export class BarBox {
   }
 
   addRow(key: string, value: string) {
+    /* TODO: Eventually resize height dynamically from the text that's drawn here */
     const buffer = 4;
     this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (1 + key.length);
 
@@ -62,7 +63,7 @@ export class BarBox {
       new TextItem(
         `k-${this.node.id}`,
         this.x + buffer,
-        this.y + BarBox.CENTER_PADDING,
+        this.y + (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
         key,
         'start'
       )
@@ -71,11 +72,15 @@ export class BarBox {
       new TextItem(
         `k-${this.node.id}`,
         this.barX + buffer,
-        this.y + BarBox.CENTER_PADDING,
+        this.y + (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
         value,
         'start'
       )
     );
+  }
+
+  getFirstRowY(): number {
+    return this.textItemValues[0].y;
   }
 
   initBar() {
@@ -90,6 +95,7 @@ export class BarBox {
   }
 
   getRenderItems(): Array<RenderItem> {
+    const items: Array<RenderItem> = [];
     if (this.barPoints.length === 0) {
       this.initBar();
     }
@@ -100,6 +106,19 @@ export class BarBox {
     barItem.addAttr('stroke-width', 1);
     barItem.addAttr('fill', 'none');
 
-    return ;
+    items.push(barItem);
+    items.push(
+      this.node.getRenderItem()
+    );
+
+    for (let i = 0; i < this.textItemKeys.length; i++){
+      items.push(
+        this.textItemKeys[i].getRenderItem()
+      );
+      items.push(
+        this.textItemValues[i].getRenderItem()
+      );
+    }
+    return items;
   }
 }

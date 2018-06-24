@@ -69,6 +69,14 @@ export class Edge {
     this.manualTarget = target;
   }
 
+  updateSourceY(y: number): void {
+    this.sourcePoint.y = y;
+  }
+
+  updateTargetY(y: number): void {
+    this.targetPoint.y = y;
+  }
+
   getRenderItems(): Array<RenderItem> {
     this.edgePoints = this.getLinePoints();
 
@@ -181,7 +189,7 @@ export class Edge {
    */
   getCurvedEdge(s: GridPoint, t: GridPoint): Array<GridPoint> {
     const points: Array<GridPoint> = [];
-    // x 5 Rule based soley on observation of personal aesthetic preferences
+    // x5 Rule based soley on observation of personal aesthetic preferences
     const buffer = Edge.ARROW_LEN * 5;
     let midPoint: GridPoint;
 

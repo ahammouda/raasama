@@ -10,6 +10,7 @@ import { Frame } from '../../common-simulation/Frame';
 import { RenderItem } from '../../common-simulation/RenderItem';
 
 import { GridMeta } from '../../common-drawing/GridMeta';
+import { BarBox } from '../../common-drawing/BarBox';
 
 
 import { Edge, ArrowType, ArcType } from '../../common-drawing/Edge';
@@ -79,15 +80,39 @@ export class DrawingExamplesComponent implements OnInit {
     nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
     nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
 
+    const barBoxOne: BarBox = new BarBox(this.gridMeta, 'green', nodeOne);
+    barBoxOne.addRow(
+      'fk', '...'
+    );
+    const barBoxTwo: BarBox = new BarBox(this.gridMeta, 'green', nodeTwo);
+    barBoxTwo.addRow(
+      'id', '...'
+    );
+
+    const itemsFour: Array<RenderItem> = barBoxOne.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      testFrame.addItem(itemsFour[i]);
+    }
+
+    const itemsFive: Array<RenderItem> = barBoxTwo.getRenderItems();
+    for (let i = 0; i < itemsFive.length; i++) {
+      testFrame.addItem(itemsFive[i]);
+    }
+
     const edge: Edge = new Edge(
       'e-0', this.gridMeta, nodeOne, nodeTwo, ArcType.LINE_KINKED, ArrowType.EAST
     );
+    // edge.updateSourceY(
+    //   barBoxOne.getFirstRowY()
+    // );
+    // edge.updateTargetY(
+    //   barBoxOne.getFirstRowY()
+    // );
 
     const itemsThree = edge.getRenderItems();
     for (let i = 0; i < itemsThree.length; i++) {
       testFrame.addItem(itemsThree[i]);
     }
-
     return testFrame;
   }
 
