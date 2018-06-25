@@ -63,7 +63,7 @@ export class Frame {
     // TODO) inner .attr('','') will be replaced with remove()
     let selection;
     if ( !isNullOrUndefined(this.renderDeltas) ) {
-
+      console.log('Rendering deltas...');
       for (const idAccessor in this.renderDeltas) {
         if (this.renderDeltas.hasOwnProperty(idAccessor)) {
 

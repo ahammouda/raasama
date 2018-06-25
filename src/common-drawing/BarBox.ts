@@ -5,6 +5,7 @@ import { RenderItem } from '../common-simulation/RenderItem';
 import {isNullOrUndefined} from 'util';
 import {GridPoint} from './GridPoint';
 import { straightLine } from '../common-drawing/staticFunctions';
+import { ArrowType } from './Edge';
 
 export class BarBox {
   // From trial and error: Text Seems to need a padding of about 4 pixels for text to hit that centerpoint of an svg
@@ -18,6 +19,8 @@ export class BarBox {
 
   private textItemKeys: Array<TextItem> = [];
   private textItemValues: Array<TextItem> = [];
+
+  private nRows: number;
 
   private node: Node;
   private headeNode: Node;
@@ -52,18 +55,20 @@ export class BarBox {
       this.nodeHeight,
       color
     );
+    this.nRows = 0;
   }
 
   addRow(key: string, value: string) {
     /* TODO: Eventually resize height dynamically from the text that's drawn here */
     const buffer = 4;
     this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (1 + key.length);
+    this.nRows += 1;
 
     this.textItemKeys.push(
       new TextItem(
         `k-${this.node.id}`,
         this.x + buffer,
-        this.y + (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
+        this.y + this.nRows * (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
         key,
         'start'
       )
@@ -72,19 +77,24 @@ export class BarBox {
       new TextItem(
         `k-${this.node.id}`,
         this.barX + buffer,
-        this.y + (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
+        this.y + this.nRows * (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
         value,
         'start'
       )
     );
   }
 
-  getFirstRowY(): number {
-    return this.textItemValues[0].y;
+  getRowY(rowIndex: number): number {
+    return this.textItemValues[rowIndex].y - BarBox.CENTER_PADDING;
   }
 
-  getFirstRowX(): number {
-    return this.x + this.headeNode.width;
+  getRowX(arrowType: ArrowType): number {
+    // TODO: Input the 'arc side for this (east or west)'
+    if (arrowType === ArrowType.WEST) {
+      return this.x + this.headeNode.width;
+    } else if (arrowType === ArrowType.EAST) {
+      return this.x;
+    }
   }
 
   initBar() {

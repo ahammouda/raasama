@@ -40,7 +40,7 @@ export class TextNode {
   }
 
   getWidth(textLabel: string) {
-    return textLabel.length * this.gridMeta.COORDINATE_WIDTH + this.gridMeta.COORDINATE_WIDTH;
+    return textLabel.length * this.gridMeta.COORDINATE_WIDTH; // + this.gridMeta.COORDINATE_WIDTH;
   }
 
   getNode(): Node {

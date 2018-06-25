@@ -5,13 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AlgoSimComponent } from './algo-sim/algo-sim.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { DrawingExamplesComponent } from './drawing-examples/drawing-examples.component';
+// import { DrawingExamplesComponent } from './drawing-examples/drawing-examples.component';
+import { DrawReSimComponent } from './draw-re-sim/draw-re-sim.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlgoSimComponent,
-    DrawingExamplesComponent
+    // DrawingExamplesComponent,
+    DrawReSimComponent
   ],
   imports: [
     BrowserModule,
