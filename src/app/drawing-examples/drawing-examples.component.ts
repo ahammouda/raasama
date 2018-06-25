@@ -14,7 +14,8 @@ import { BarBox } from '../../common-drawing/BarBox';
 
 
 import { Edge, ArrowType, ArcType } from '../../common-drawing/Edge';
-import {GridPoint} from '../../common-drawing/GridPoint';
+import { GridPoint } from '../../common-drawing/GridPoint';
+import {GridTable} from '../../common-drawing/GridTable';
 
 @Component({
   selector: 'app-drawing-examples',
@@ -34,7 +35,7 @@ export class DrawingExamplesComponent implements OnInit {
   svg: any; // SVG Grid to render objects onto
 
   constructor() {
-    // Single box to fit uppercase font-size = 10
+    // Single box to fit uppercase font-size = 16
     this.gridMeta = {
       X_ORIGIN: DrawingExamplesComponent.XORIG,
       Y_ORIGIN: DrawingExamplesComponent.YORIG,
@@ -124,14 +125,23 @@ export class DrawingExamplesComponent implements OnInit {
   createTestFrame(): Frame {
     const testFrame = new Frame();
 
-    const textNodeOne: TextNode = new TextNode(
-      this.gridMeta, 'n-0',
-      this.gridMeta.COORDINATE_WIDTH * 2,
-      0,
-      'blue', 'F_0,F^0,F_{01},F^{01}'
-    );
+    // const textNodeOne: TextNode = new TextNode(
+    //   this.gridMeta, 'n-0',
+    //   this.gridMeta.COORDINATE_WIDTH * 2,
+    //   0,
+    //   'blue', 'I_{0,0}'
+    // );
+    //
+    // const items = textNodeOne.getRenderItems();
+    // for (let i = 0; i < items.length; i++) {
+    //   testFrame.addItem(items[i]);
+    // }
 
-    const items = textNodeOne.getRenderItems();
+    const gridTable: GridTable = new GridTable(
+      this.gridMeta, 4, 4, 50, 50, ['u', 'f', 'p', 't'], 'CSV File'
+    );
+    gridTable.highlightPoint(2, 2);
+    const items = gridTable.getRenderItems();
     for (let i = 0; i < items.length; i++) {
       testFrame.addItem(items[i]);
     }

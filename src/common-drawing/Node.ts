@@ -33,6 +33,10 @@ export class Node {
     }
   }
 
+  updateColor(color: string) {
+    this.color = color;
+  }
+
   /**
    * Get a render item from this object to be drawn or transitioned to
    */

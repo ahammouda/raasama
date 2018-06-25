@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { GridMeta } from './GridMeta';
 import { Node } from './Node';
 import { TextItem } from './TextItem';
@@ -109,7 +111,7 @@ export class BarBox {
   }
 
   getRenderItems(): Array<RenderItem> {
-    const items: Array<RenderItem> = [];
+    let items: Array<RenderItem> = [];
     if (this.barPoints.length === 0) {
       this.initBar();
     }
@@ -126,12 +128,8 @@ export class BarBox {
     );
 
     for (let i = 0; i < this.textItemKeys.length; i++) {
-      items.push(
-        this.textItemKeys[i].getRenderItem()
-      );
-      items.push(
-        this.textItemValues[i].getRenderItem()
-      );
+      items = _.concat(items, this.textItemKeys[i].getRenderItems());
+      items = _.concat(items, this.textItemValues[i].getRenderItems());
     }
     return items;
   }

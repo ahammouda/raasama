@@ -11,7 +11,7 @@ import { RenderItem } from '../../common-simulation/RenderItem';
 
 import { GridMeta } from '../../common-drawing/GridMeta';
 import { BarBox } from '../../common-drawing/BarBox';
-
+import {GridTable} from '../../common-drawing/GridTable';
 
 import { Edge, ArrowType, ArcType } from '../../common-drawing/Edge';
 import {GridPoint} from '../../common-drawing/GridPoint';
@@ -520,25 +520,25 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 4,
-      'blue', 'U', true
+      'blue', 'U', null, true
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'P', true
+      'blue', 'P', null, true
     );
     const textNodeThree: TextNode = new TextNode(
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 10,
-      'blue', 'F', true
+      'blue', 'F', null, true
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 13,
-      'blue', 'T', true
+      'blue', 'T', null, true
     );
 
     const items = textNodeOne.getRenderItems();
@@ -576,25 +576,25 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 4,
-      'blue', 'U', true
+      'blue', 'U', null, true
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'P', true
+      'blue', 'P', null, true
     );
     const textNodeThree: TextNode = new TextNode(
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 10,
-      'blue', 'F', true
+      'blue', 'F', null, true
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 13,
-      'blue', 'T', true
+      'blue', 'T', null, true
     );
 
     const nodeOne = textNodeOne.getNode();
@@ -657,25 +657,25 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 13,
-      'blue', 'U', true
+      'blue', 'U', null, true
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'P', true
+      'blue', 'P', null, true
     );
     const textNodeThree: TextNode = new TextNode(
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 10,
-      'blue', 'F', true
+      'blue', 'F', null, true
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 4,
-      'blue', 'T', true
+      'blue', 'T', null, true
     );
 
     const items = textNodeOne.getRenderItems();
@@ -760,25 +760,25 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 5,
-      'blue', 'U', true
+      'blue', 'U', null, true
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 10,
       this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'P', true
+      'blue', 'P', null, true
     );
     const textNodeThree: TextNode = new TextNode(
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 9,
-      'blue', 'F', true
+      'blue', 'F', null, true
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 20,
       this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'T', true
+      'blue', 'T', null, true
     );
 
     const items = textNodeOne.getRenderItems();
@@ -863,25 +863,25 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 5,
-      'blue', 'U', false
+      'blue', 'U', null, false
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 10,
       this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'P', false
+      'blue', 'P', null, false
     );
     const textNodeThree: TextNode = new TextNode(
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 2,
       this.gridMeta.COORDINATE_HEIGHT * 9,
-      'blue', 'F', false
+      'blue', 'F', null, false
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 20,
       this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'T', false
+      'blue', 'T', null, false
     );
 
     const items = textNodeOne.getRenderItems();
@@ -908,12 +908,25 @@ export class DrawReSimComponent implements OnInit {
   }
 
   /**
-   *  - Expand Label
+   *  - TODO: Shift all nodes up for the 'final arrangement' and finish this frame
+   *  - Expand label
    *  - add in an empty bBox
    *  - draw a csv file table */
   createFrame9(): Frame {
     const frame: Frame = new Frame();
-    // TODO:
+
+    const gridTable: GridTable = new GridTable(
+      this.gridMeta, 4, 4,
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 12,
+      ['u', 'f', 'p', 't'], 'CSV File'
+    );
+    // gridTable.highlightPoint(2, 2);
+    const items = gridTable.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addItem(items[i]);
+    }
+
     return frame;
   }
 
@@ -955,6 +968,9 @@ export class DrawReSimComponent implements OnInit {
     this.frames.push(
       this.createFrame8()
     );
+    this.frames.push(
+      this.createFrame9()
+    );
 
     this.frames[0].setNext(this.frames[1]);
     this.frames[1].setNext(this.frames[2]);
@@ -965,6 +981,7 @@ export class DrawReSimComponent implements OnInit {
     this.frames[6].setNext(this.frames[7]);
     this.frames[7].setNext(this.frames[8]);
     this.frames[8].setNext(this.frames[9]);
+    this.frames[9].setNext(this.frames[10]);
 
     this.frames[0].render();
     this.frames[0].transition();
