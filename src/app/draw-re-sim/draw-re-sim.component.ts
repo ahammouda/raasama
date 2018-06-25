@@ -52,6 +52,8 @@ export class DrawReSimComponent implements OnInit {
     this.GR = 8 * this.gridMeta.COORDINATE_HEIGHT;
   }
 
+  /**
+   *  Initial rendering of elements */
   createFrame0(): Frame {
     const testFrame = new Frame();
 
@@ -244,6 +246,8 @@ export class DrawReSimComponent implements OnInit {
     return testFrame;
   }
 
+  /**
+   *  Moves arrows away from bbox to textbox */
   createFrame1(): Frame {
     const frame: Frame = new Frame();
 
@@ -281,6 +285,638 @@ export class DrawReSimComponent implements OnInit {
     return frame;
   }
 
+  /**
+   *  Remove all bbox items */
+  createFrame2(): Frame {
+    const frame: Frame = new Frame();
+
+    const items0 = this.frame0Data['barBoxOne'].getRenderItems();
+    for (let i = 0; i < items0.length; i++) {
+      frame.addRemoveElement(items0[i]);
+    }
+    const items1 = this.frame0Data['barBoxTwo'].getRenderItems();
+    for (let i = 0; i < items1.length; i++) {
+      frame.addRemoveElement(items1[i]);
+    }
+    const items2 = this.frame0Data['barBoxThree'].getRenderItems();
+    for (let i = 0; i < items2.length; i++) {
+      frame.addRemoveElement(items2[i]);
+    }
+    const items3 = this.frame0Data['barBoxFour'].getRenderItems();
+    for (let i = 0; i < items3.length; i++) {
+      frame.addRemoveElement(items3[i]);
+    }
+    return frame;
+  }
+
+  /**
+   *  Changes label, and adjusts rectangle size, and moves arrow along with it */
+  createFrame3(): Frame {
+    const frame = new Frame();
+    // Just reinitialize the textNode with a different label
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 4,
+      'blue', 'U'
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 8,
+      this.gridMeta.COORDINATE_HEIGHT * 4,
+      'blue', 'P'
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 8,
+      this.gridMeta.COORDINATE_HEIGHT * 12,
+      'blue', 'F'
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 4,
+      'blue', 'T'
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+
+    // Adjust edges
+    /********************** Edges **********************/
+    /** e-0 ********************************************/
+    const edge: Edge = new Edge(
+      'e-0', this.gridMeta, nodeTwo, nodeOne, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    );
+
+    const items2 = edge.getRenderItems();
+    for (let i = 0; i < items2.length; i++) {
+      frame.addDelta(items2[i]);
+    }
+
+    /** e-1 ********************************************/
+    const edge0: Edge = new Edge(
+      'e-1', this.gridMeta, nodeTwo, nodeThree, ArcType.LINE_KINKED, ArrowType.WEST
+    );
+
+    const items3 = edge0.getRenderItems();
+    for (let i = 0; i < items3.length; i++) {
+      frame.addDelta(items3[i]);
+    }
+
+    /** e-2 ********************************************/
+    const edge1: Edge = new Edge(
+      'e-2', this.gridMeta, nodeFour, nodeTwo, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    );
+
+    const items4 = edge1.getRenderItems();
+    for (let i = 0; i < items4.length; i++) {
+      frame.addDelta(items4[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   * Rearrange nodes along verticle line to perform sorting */
+  createFrame4(): Frame {
+    const frame: Frame = new Frame();
+    // Just reinitialize the textNode with a different label
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 4,
+      'blue', 'U'
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'P'
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 10,
+      'blue', 'F'
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 13,
+      'blue', 'T'
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+
+    // Adjust edges
+    /********************** Edges **********************/
+    /** e-0 ********************************************/
+    const edge: Edge = new Edge(
+      'e-0', this.gridMeta, nodeTwo, nodeOne, ArcType.LINE_KINKED, ArrowType.EAST
+    );
+
+    const items2 = edge.getRenderItems();
+    for (let i = 0; i < items2.length; i++) {
+      frame.addDelta(items2[i]);
+    }
+
+    /** e-1 ********************************************/
+    const edge0: Edge = new Edge(
+      'e-1', this.gridMeta, nodeTwo, nodeThree, ArcType.LINE_KINKED, ArrowType.EAST
+    );
+
+    const items3 = edge0.getRenderItems();
+    for (let i = 0; i < items3.length; i++) {
+      frame.addDelta(items3[i]);
+    }
+
+    /** e-2 ********************************************/
+    const edge1: Edge = new Edge(
+      'e-2', this.gridMeta, nodeFour, nodeTwo, ArcType.LINE_KINKED, ArrowType.EAST
+    );
+
+    const items4 = edge1.getRenderItems();
+    for (let i = 0; i < items4.length; i++) {
+      frame.addDelta(items4[i]);
+    }
+
+    return frame;
+  }
+
+  /*
+  * Rectangles to circular form
+  */
+  createFrame5(): Frame {
+    const frame: Frame = new Frame();
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 4,
+      'blue', 'U', true
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'P', true
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 10,
+      'blue', 'F', true
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 13,
+      'blue', 'T', true
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   * Turn edges into arcs
+   * @returns {Frame}
+   */
+  createFrame5a(): Frame {
+    const frame: Frame = new Frame();
+
+    // Recreate nodes without drawing, and make curve between nodes
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 4,
+      'blue', 'U', true
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'P', true
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 10,
+      'blue', 'F', true
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 13,
+      'blue', 'T', true
+    );
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+
+    /********************** Edges **********************/
+    /** e-0 ********************************************/
+    const edge: Edge = new Edge(
+      'e-0', this.gridMeta, nodeTwo, nodeOne, ArcType.CURVE, ArrowType.EAST
+    );
+
+    const items2 = edge.getRenderItems();
+    for (let i = 0; i < items2.length; i++) {
+      frame.addDelta(items2[i]);
+    }
+
+    /** e-1 ********************************************/
+    const edge0: Edge = new Edge(
+      'e-1', this.gridMeta, nodeTwo, nodeThree, ArcType.CURVE, ArrowType.EAST
+    );
+
+    const items3 = edge0.getRenderItems();
+    for (let i = 0; i < items3.length; i++) {
+      frame.addDelta(items3[i]);
+    }
+
+    /** e-2 ********************************************/
+    const edge1: Edge = new Edge(
+      'e-2', this.gridMeta, nodeFour, nodeTwo, ArcType.CURVE, ArrowType.EAST
+    );
+
+    const items4 = edge1.getRenderItems();
+    for (let i = 0; i < items4.length; i++) {
+      frame.addDelta(items4[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   * Draw items in topologically sorted order
+   * @returns {Frame}
+   */
+  createFrame6() {
+    const frame: Frame = new Frame();
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 13,
+      'blue', 'U', true
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'P', true
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 10,
+      'blue', 'F', true
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 4,
+      'blue', 'T', true
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+
+    // Adjust edges
+    /********************** Edges **********************/
+    /** e-0 ********************************************/
+    const edge: Edge = new Edge(
+      'e-0', this.gridMeta, nodeTwo, nodeOne, ArcType.CURVE, ArrowType.EAST
+    );
+
+    const items2 = edge.getRenderItems();
+    for (let i = 0; i < items2.length; i++) {
+      frame.addDelta(items2[i]);
+    }
+
+    /** e-1 ********************************************/
+    const edge0: Edge = new Edge(
+      'e-1', this.gridMeta, nodeTwo, nodeThree, ArcType.CURVE, ArrowType.EAST
+    );
+
+    const items3 = edge0.getRenderItems();
+    for (let i = 0; i < items3.length; i++) {
+      frame.addDelta(items3[i]);
+    }
+
+    /** e-2 ********************************************/
+    const edge1: Edge = new Edge(
+      'e-2', this.gridMeta, nodeFour, nodeTwo, ArcType.CURVE, ArrowType.EAST
+    );
+
+    const items4 = edge1.getRenderItems();
+    for (let i = 0; i < items4.length; i++) {
+      frame.addDelta(items4[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   * Transition Nodes to tree Form
+   * @returns {Frame}
+   */
+  createFrame7(): Frame {
+    const frame: Frame = new Frame();
+
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 5,
+      'blue', 'U', true
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 10,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'P', true
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 9,
+      'blue', 'F', true
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 20,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'T', true
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+
+    // Adjust edges
+    /********************** Edges **********************/
+    /** e-0 ********************************************/
+    const edge: Edge = new Edge(
+      'e-0', this.gridMeta, nodeTwo, nodeOne, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    );
+
+    const items2 = edge.getRenderItems();
+    for (let i = 0; i < items2.length; i++) {
+      frame.addDelta(items2[i]);
+    }
+
+    /** e-1 ********************************************/
+    const edge0: Edge = new Edge(
+      'e-1', this.gridMeta, nodeTwo, nodeThree, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    );
+
+    const items3 = edge0.getRenderItems();
+    for (let i = 0; i < items3.length; i++) {
+      frame.addDelta(items3[i]);
+    }
+
+    /** e-2 ********************************************/
+    const edge1: Edge = new Edge(
+      'e-2', this.gridMeta, nodeFour, nodeTwo, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    );
+
+    const items4 = edge1.getRenderItems();
+    for (let i = 0; i < items4.length; i++) {
+      frame.addDelta(items4[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   * Make nodes square again
+   * @returns {Frame}
+   */
+  createFrame8(): Frame {
+    const frame: Frame = new Frame();
+
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 5,
+      'blue', 'U', false
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 10,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'P', false
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      this.gridMeta.COORDINATE_HEIGHT * 9,
+      'blue', 'F', false
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 20,
+      this.gridMeta.COORDINATE_HEIGHT * 7,
+      'blue', 'T', false
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   *  - Expand Label
+   *  - add in an empty bBox
+   *  - draw a csv file table */
+  createFrame9(): Frame {
+    const frame: Frame = new Frame();
+    // TODO:
+    return frame;
+  }
+
   ngOnInit() {
     this.svg = d3.select('div#re-sim')
       .append('svg')
@@ -295,8 +931,40 @@ export class DrawReSimComponent implements OnInit {
     this.frames.push(
       this.createFrame1()
     );
+    this.frames.push(
+      this.createFrame2()
+    );
+    this.frames.push(
+      this.createFrame3()
+    );
+    this.frames.push(
+      this.createFrame4()
+    );
+    this.frames.push(
+      this.createFrame5()
+    );
+    this.frames.push(
+      this.createFrame5a()
+    );
+    this.frames.push(
+      this.createFrame6()
+    );
+    this.frames.push(
+      this.createFrame7()
+    );
+    this.frames.push(
+      this.createFrame8()
+    );
 
     this.frames[0].setNext(this.frames[1]);
+    this.frames[1].setNext(this.frames[2]);
+    this.frames[2].setNext(this.frames[3]);
+    this.frames[3].setNext(this.frames[4]);
+    this.frames[4].setNext(this.frames[5]);
+    this.frames[5].setNext(this.frames[6]);
+    this.frames[6].setNext(this.frames[7]);
+    this.frames[7].setNext(this.frames[8]);
+    this.frames[8].setNext(this.frames[9]);
 
     this.frames[0].render();
     this.frames[0].transition();

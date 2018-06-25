@@ -66,7 +66,7 @@ export class BarBox {
 
     this.textItemKeys.push(
       new TextItem(
-        `k-${this.node.id}`,
+        `k-${this.node.id}-${this.nRows - 1}`,
         this.x + buffer,
         this.y + this.nRows * (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
         key,
@@ -75,7 +75,7 @@ export class BarBox {
     );
     this.textItemValues.push(
       new TextItem(
-        `k-${this.node.id}`,
+        `v-${this.node.id}-${this.nRows - 1}`,
         this.barX + buffer,
         this.y + this.nRows * (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
         value,
@@ -125,7 +125,7 @@ export class BarBox {
       this.node.getRenderItem()
     );
 
-    for (let i = 0; i < this.textItemKeys.length; i++){
+    for (let i = 0; i < this.textItemKeys.length; i++) {
       items.push(
         this.textItemKeys[i].getRenderItem()
       );

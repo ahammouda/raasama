@@ -23,6 +23,7 @@ export class TextItem {
     textItem.addAttr('y', this.y);
     textItem.addAttr('text-anchor', this.textAnchor);
     textItem.setText( this.textContent );
+    // Split string based on _{*} or ^{*} then create a separate text item up until }
     return textItem;
   }
 }
