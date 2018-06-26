@@ -82,7 +82,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 22,
       this.gridMeta.COORDINATE_HEIGHT * 4,
-      'blue', '-Tag-'
+      'blue', ' Tag '
     );
 
     this.frame0Data['textNodeOne'] = textNodeOne;
@@ -920,7 +920,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT,
-      'blue', '-User-', null, false
+      'blue', ' User ', null, false
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
@@ -932,13 +932,13 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT * 8,
-      'blue', '-Firm-', null, false
+      'blue', ' Firm ', null, false
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 22,
       this.gridMeta.COORDINATE_HEIGHT * 2,
-      'blue', '--Tag---', null, false
+      'blue', '  Tag   ', null, false
     );
 
     const items = textNodeOne.getRenderItems();
@@ -1021,7 +1021,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT,
-      'blue', '-User-', null, false
+      'blue', ' User ', null, false
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
@@ -1033,13 +1033,13 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT * 8,
-      'blue', '-Firm-', null, false
+      'blue', ' Firm ', null, false
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 22,
       this.gridMeta.COORDINATE_HEIGHT * 2,
-      'blue', '--Tag---', null, false
+      'blue', '  Tag   ', null, false
     );
 
     const nodeOne = textNodeOne.getNode();
@@ -1133,49 +1133,6 @@ export class DrawReSimComponent implements OnInit {
     const barBoxTwo: BarBox = this.frameNData['barBoxTwo'];
     const barBoxThree: BarBox = this.frameNData['barBoxThree'];
     const barBoxFour: BarBox = this.frameNData['barBoxFour'];
-
-    // region Node Initialization (for refreshing barBoxes)
-    // const textNodeOne: TextNode = new TextNode(
-    //   this.gridMeta, 'n-0',
-    //   this.gridMeta.COORDINATE_WIDTH * 1,
-    //   this.gridMeta.COORDINATE_HEIGHT,
-    //   'blue', '-User-', null, false
-    // );
-    // const textNodeTwo: TextNode = new TextNode(
-    //   this.gridMeta, 'n-1',
-    //   this.gridMeta.COORDINATE_WIDTH * 10,
-    //   this.gridMeta.COORDINATE_HEIGHT * 2,
-    //   'blue', 'UserProfile', null, false
-    // );
-    // const textNodeThree: TextNode = new TextNode(
-    //   this.gridMeta, 'n-2',
-    //   this.gridMeta.COORDINATE_WIDTH * 1,
-    //   this.gridMeta.COORDINATE_HEIGHT * 8,
-    //   'blue', '-Firm-', null, false
-    // );
-    // const textNodeFour: TextNode = new TextNode(
-    //   this.gridMeta, 'n-3',
-    //   this.gridMeta.COORDINATE_WIDTH * 22,
-    //   this.gridMeta.COORDINATE_HEIGHT * 2,
-    //   'blue', '-Tag-', null, false
-    // );
-    //
-    // const nodeOne = textNodeOne.getNode();
-    // nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
-    // nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
-    //
-    // const nodeTwo = textNodeTwo.getNode();
-    // nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
-    // nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
-    //
-    // const nodeThree = textNodeThree.getNode();
-    // nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
-    // nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
-    //
-    // const nodeFour = textNodeFour.getNode();
-    // nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
-    // nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
-    // endregion
 
     /**************** Bar-Boxes ***********************************************/
     // // Overwrite old bar boxes
