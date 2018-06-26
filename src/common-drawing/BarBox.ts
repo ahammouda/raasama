@@ -61,9 +61,11 @@ export class BarBox {
   }
 
   addRow(key: string, value: string) {
+    // TODO: Need a more sophisticated way of subtracting lengths given presence of sub/super scripts
+    const subN = key.includes('}') ? 3 : 0;
     /* TODO: Eventually resize height dynamically from the text that's drawn here */
     const buffer = 4;
-    this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (1 + key.length);
+    this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (key.length - subN);
     this.nRows += 1;
 
     this.textItemKeys.push(

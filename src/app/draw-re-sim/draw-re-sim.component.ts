@@ -511,8 +511,8 @@ export class DrawReSimComponent implements OnInit {
     return frame;
   }
 
-  /*
-  * Rectangles to circular form
+  /**
+   * Rectangles to circular form
   */
   createFrame5(): Frame {
     const frame: Frame = new Frame();
@@ -758,27 +758,186 @@ export class DrawReSimComponent implements OnInit {
 
     const textNodeOne: TextNode = new TextNode(
       this.gridMeta, 'n-0',
-      this.gridMeta.COORDINATE_WIDTH * 2,
-      this.gridMeta.COORDINATE_HEIGHT * 5,
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT,
       'blue', 'U', null, true
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 10,
-      this.gridMeta.COORDINATE_HEIGHT * 7,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
       'blue', 'P', null, true
     );
     const textNodeThree: TextNode = new TextNode(
       this.gridMeta, 'n-2',
-      this.gridMeta.COORDINATE_WIDTH * 2,
-      this.gridMeta.COORDINATE_HEIGHT * 9,
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT * 8,
       'blue', 'F', null, true
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
-      this.gridMeta.COORDINATE_WIDTH * 20,
-      this.gridMeta.COORDINATE_HEIGHT * 7,
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
       'blue', 'T', null, true
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+
+    // Adjust edges
+    /********************** Edges **********************/
+    /** e-0 ********************************************/
+    const edge: Edge = new Edge(
+      'e-0', this.gridMeta, nodeTwo, nodeOne, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    );
+
+    const items2 = edge.getRenderItems();
+    for (let i = 0; i < items2.length; i++) {
+      frame.addDelta(items2[i]);
+    }
+
+    /** e-1 ********************************************/
+    const edge0: Edge = new Edge(
+      'e-1', this.gridMeta, nodeTwo, nodeThree, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    )
+
+    const items3 = edge0.getRenderItems();
+    for (let i = 0; i < items3.length; i++) {
+      frame.addDelta(items3[i]);
+    }
+
+    /** e-2 ********************************************/
+    const edge1: Edge = new Edge(
+      'e-2', this.gridMeta, nodeFour, nodeTwo, ArcType.LINE_STRAIGHT, ArrowType.EAST
+    );
+
+    const items4 = edge1.getRenderItems();
+    for (let i = 0; i < items4.length; i++) {
+      frame.addDelta(items4[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   * Make nodes square again
+   * @returns {Frame}
+   */
+  createFrame8(): Frame {
+    const frame: Frame = new Frame();
+
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT,
+      'blue', 'U', null, false
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 10,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', 'P', null, false
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT * 8,
+      'blue', 'F', null, false
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', 'T', null, false
+    );
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      frame.addDelta(items[i]);
+    }
+
+    const itemsTwo = textNodeTwo.getRenderItems();
+    for (let i = 0; i < itemsTwo.length; i++) {
+      frame.addDelta(itemsTwo[i]);
+    }
+
+    const itemsThree = textNodeThree.getRenderItems();
+    for (let i = 0; i < itemsThree.length; i++) {
+      frame.addDelta(itemsThree[i]);
+    }
+
+    const itemsFour = textNodeFour.getRenderItems();
+    for (let i = 0; i < itemsFour.length; i++) {
+      frame.addDelta(itemsFour[i]);
+    }
+
+    return frame;
+  }
+
+  /**
+   *  - TODO: Shift all nodes up for the 'final arrangement' and finish this frame
+   *  - Expand label
+   *  - add in an empty bBox
+   *  - draw a csv file table */
+  createFrame9(): Frame {
+    const frame: Frame = new Frame();
+
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT,
+      'blue', 'User', null, false
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 10,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', 'UserProfile', null, false
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT * 8,
+      'blue', 'Firm', null, false
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', '-Tag-', null, false
     );
 
     const items = textNodeOne.getRenderItems();
@@ -848,72 +1007,96 @@ export class DrawReSimComponent implements OnInit {
     for (let i = 0; i < items4.length; i++) {
       frame.addDelta(items4[i]);
     }
-
     return frame;
   }
 
   /**
-   * Make nodes square again
-   * @returns {Frame}
+   * Draw BBoxes, and add csv file image
    */
-  createFrame8(): Frame {
+  createFrame10(): Frame {
     const frame: Frame = new Frame();
 
     const textNodeOne: TextNode = new TextNode(
       this.gridMeta, 'n-0',
-      this.gridMeta.COORDINATE_WIDTH * 2,
-      this.gridMeta.COORDINATE_HEIGHT * 5,
-      'blue', 'U', null, false
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT,
+      'blue', 'User', null, false
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
       this.gridMeta.COORDINATE_WIDTH * 10,
-      this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'P', null, false
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', 'UserProfile', null, false
     );
     const textNodeThree: TextNode = new TextNode(
       this.gridMeta, 'n-2',
-      this.gridMeta.COORDINATE_WIDTH * 2,
-      this.gridMeta.COORDINATE_HEIGHT * 9,
-      'blue', 'F', null, false
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT * 8,
+      'blue', 'Firm', null, false
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
-      this.gridMeta.COORDINATE_WIDTH * 20,
-      this.gridMeta.COORDINATE_HEIGHT * 7,
-      'blue', 'T', null, false
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', '-Tag-', null, false
     );
 
-    const items = textNodeOne.getRenderItems();
-    for (let i = 0; i < items.length; i++) {
-      frame.addDelta(items[i]);
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+
+    /**************** Bar-Boxes ***********************************************/
+    const barBoxOne: BarBox = new BarBox(
+      this.gridMeta, 'green', nodeOne
+    );
+    barBoxOne.addRow('e_{0}', '{}');
+
+    const barBoxTwo: BarBox = new BarBox(
+      this.gridMeta, 'green', nodeTwo
+    );
+    barBoxTwo.addRow('e_{0}', '{}');
+
+    const barBoxThree: BarBox = new BarBox(
+      this.gridMeta, 'green', nodeThree
+    );
+    barBoxThree.addRow('e_{0}', '{}');
+
+    const barBoxFour: BarBox = new BarBox(
+      this.gridMeta, 'green', nodeFour
+    );
+    barBoxFour.addRow('e_{0}', '{}');
+
+    const itemsFive: Array<RenderItem> = barBoxOne.getRenderItems();
+    for (let i = 0; i < itemsFive.length; i++) {
+      frame.addItem(itemsFive[i]);
     }
 
-    const itemsTwo = textNodeTwo.getRenderItems();
-    for (let i = 0; i < itemsTwo.length; i++) {
-      frame.addDelta(itemsTwo[i]);
+    const itemsSix: Array<RenderItem> = barBoxTwo.getRenderItems();
+    for (let i = 0; i < itemsSix.length; i++) {
+      frame.addItem(itemsSix[i]);
     }
 
-    const itemsThree = textNodeThree.getRenderItems();
-    for (let i = 0; i < itemsThree.length; i++) {
-      frame.addDelta(itemsThree[i]);
+    const items0: Array<RenderItem> = barBoxThree.getRenderItems();
+    for (let i = 0; i < items0.length; i++) {
+      frame.addItem(items0[i]);
     }
 
-    const itemsFour = textNodeFour.getRenderItems();
-    for (let i = 0; i < itemsFour.length; i++) {
-      frame.addDelta(itemsFour[i]);
+    const items1: Array<RenderItem> = barBoxFour.getRenderItems();
+    for (let i = 0; i < items1.length; i++) {
+      frame.addItem(items1[i]);
     }
-
-    return frame;
-  }
-
-  /**
-   *  - TODO: Shift all nodes up for the 'final arrangement' and finish this frame
-   *  - Expand label
-   *  - add in an empty bBox
-   *  - draw a csv file table */
-  createFrame9(): Frame {
-    const frame: Frame = new Frame();
 
     const gridTable: GridTable = new GridTable(
       this.gridMeta, 4, 4,
@@ -922,11 +1105,10 @@ export class DrawReSimComponent implements OnInit {
       ['u', 'f', 'p', 't'], 'CSV File'
     );
     // gridTable.highlightPoint(2, 2);
-    const items = gridTable.getRenderItems();
-    for (let i = 0; i < items.length; i++) {
-      frame.addItem(items[i]);
+    const gridItems = gridTable.getRenderItems();
+    for (let i = 0; i < gridItems.length; i++) {
+      frame.addItem(gridItems[i]);
     }
-
     return frame;
   }
 
@@ -971,6 +1153,9 @@ export class DrawReSimComponent implements OnInit {
     this.frames.push(
       this.createFrame9()
     );
+    this.frames.push(
+      this.createFrame10()
+    );
 
     this.frames[0].setNext(this.frames[1]);
     this.frames[1].setNext(this.frames[2]);
@@ -982,6 +1167,7 @@ export class DrawReSimComponent implements OnInit {
     this.frames[7].setNext(this.frames[8]);
     this.frames[8].setNext(this.frames[9]);
     this.frames[9].setNext(this.frames[10]);
+    this.frames[10].setNext(this.frames[11]);
 
     this.frames[0].render();
     this.frames[0].transition();
