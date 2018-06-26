@@ -60,13 +60,15 @@ export class BarBox {
     this.nRows = 0;
   }
 
-  addRow(key: string, value: string) {
+  addRow(key: string, value: string): Array<RenderItem> {
     // TODO: Need a more sophisticated way of subtracting lengths given presence of sub/super scripts
     const subN = key.includes('}') ? 3 : 0;
     /* TODO: Eventually resize height dynamically from the text that's drawn here */
     const buffer = 4;
     // TODO: Get rid of this for this: '-1' specific example
-    this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (key.length - subN - 1);
+    if (isNullOrUndefined(this.barX) ) {
+      this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (key.length - subN - 1);
+    }
     this.nRows += 1;
 
     this.textItemKeys.push(
@@ -78,15 +80,41 @@ export class BarBox {
         'start'
       )
     );
-    this.textItemValues.push(
-      new TextItem(
-        `v-${this.node.id}-${this.nRows - 1}`,
-        this.barX + buffer,
-        this.y + this.nRows * (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
-        value,
-        'start'
-      )
-    );
+    if (value !== '') {
+      this.textItemValues.push(
+        new TextItem(
+          `v-${this.node.id}-${this.nRows - 1}`,
+          this.barX + buffer,
+          this.y + this.nRows * (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
+          value,
+          'start'
+        )
+      );
+      return _.concat(
+        this.textItemKeys[this.nRows - 1].getRenderItems(),
+        this.textItemValues[this.nRows - 1].getRenderItems()
+      );
+    } else {
+      return this.textItemKeys[this.nRows - 1].getRenderItems();
+    }
+  }
+
+  updateRowValue(row: number, appendString): Array<RenderItem> {
+    const buffer = 4;
+    if ( row <= this.textItemValues.length - 1 ) {
+      return this.textItemValues[row].appendLabel(appendString);
+    } else {
+      this.textItemValues.push(
+        new TextItem(
+          `v-${this.node.id}-${this.nRows - 1}`,
+          this.barX + buffer,
+          this.y + this.nRows * (0.75 * this.gridMeta.COORDINATE_HEIGHT) + BarBox.CENTER_PADDING,
+          appendString,
+          'start'
+        )
+      );
+      return this.textItemValues[this.nRows - 1].getRenderItems();
+    }
   }
 
   getRowY(rowIndex: number): number {
@@ -132,7 +160,9 @@ export class BarBox {
 
     for (let i = 0; i < this.textItemKeys.length; i++) {
       items = _.concat(items, this.textItemKeys[i].getRenderItems());
-      items = _.concat(items, this.textItemValues[i].getRenderItems());
+      if ( i <= this.textItemValues.length - 1) {
+        items = _.concat(items, this.textItemValues[i].getRenderItems());
+      }
     }
     return items;
   }

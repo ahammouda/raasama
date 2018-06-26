@@ -115,7 +115,7 @@ export class Frame {
           // This is starting to feel a bit fraught
           setTimeout(function() {
             this.nextFrame.render();
-          }.bind(this), 1 );
+          }.bind(this), Frame.DELAY );
 
           this.nextFrame.transition();
         }.bind(this), Frame.DELAY );
@@ -128,7 +128,7 @@ export class Frame {
           // This is starting to feel a bit fraught
           setTimeout(function() {
             this.nextFrame.render();
-          }.bind(this), 1 );
+          }.bind(this), Frame.DELAY );
 
           this.nextFrame.transition();
         }.bind(this), Frame.DELAY );
