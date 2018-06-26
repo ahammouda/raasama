@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import {isNullOrUndefined} from 'util';
 
 export class RenderItem {
-  private static DELAY = 1000;
+  private static DELAY = 0;
   /* Essentially a representation of the things needed to render d3 to the DOM */
   // TODO: Make these private when done debugging this class
   public id: string;

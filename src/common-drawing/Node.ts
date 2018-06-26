@@ -33,8 +33,11 @@ export class Node {
     }
   }
 
-  updateColor(color: string) {
+  updateColor(color: string): RenderItem {
     this.color = color;
+    const nodeItem = new RenderItem(this.id, `svg`, 'rect');
+    nodeItem.addAttr('fill', this.color);
+    return nodeItem;
   }
 
   /**

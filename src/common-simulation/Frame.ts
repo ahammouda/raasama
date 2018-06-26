@@ -6,7 +6,7 @@ import { isNullOrUndefined } from 'util';
 
 
 export class Frame {
-  private static DURATION = 2500;
+  private static DURATION = 1000;
   private static DELAY = 1000;
   // Any new SVG or DOM objects to be rendered in this frame using d3 are stored here
   private renderItems: Array<RenderItem> = [];
@@ -99,20 +99,39 @@ export class Frame {
             //        <-- You'll need to figure out what the javascript equivalent for making the variable atomic is
             // See: https://stackoverflow.com/questions/41734921/rxjs-wait-for-all-observables-in-an-array-to-complete-or-error/41735096
             // AND: https://stackoverflow.com/questions/44004144/how-to-wait-for-two-observables-in-rxjs
-            this.nextFrame.render();
             this.nextFrame.pruneItems();
+
+            // This is starting to feel a bit fraught
+            setTimeout(function() {
+              this.nextFrame.render();
+            }.bind(this), Frame.DELAY );
+
             this.nextFrame.transition();
           }.bind(this));
       } else if ( !isNullOrUndefined(this.nextFrame) && isNullOrUndefined(selection) ) {
-        this.nextFrame.render();
-        this.nextFrame.pruneItems();
-        this.nextFrame.transition();
+        setTimeout(function() {
+          this.nextFrame.pruneItems();
+
+          // This is starting to feel a bit fraught
+          setTimeout(function() {
+            this.nextFrame.render();
+          }.bind(this), 1 );
+
+          this.nextFrame.transition();
+        }.bind(this), Frame.DELAY );
       }
     } else {
       if (!isNullOrUndefined(this.nextFrame)) {
-        this.nextFrame.render();
-        this.nextFrame.pruneItems();
-        this.nextFrame.transition();
+        setTimeout(function() {
+          this.nextFrame.pruneItems();
+
+          // This is starting to feel a bit fraught
+          setTimeout(function() {
+            this.nextFrame.render();
+          }.bind(this), 1 );
+
+          this.nextFrame.transition();
+        }.bind(this), Frame.DELAY );
       }
     }
   } // End transition()

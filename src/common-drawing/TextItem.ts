@@ -91,6 +91,7 @@ export class TextItem {
   }
 
   getRenderItems(): Array<RenderItem> {
+    this.incX = 0;
     return this.getSubRenderItems( this.textContent );
   }
 

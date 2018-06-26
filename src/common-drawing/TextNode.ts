@@ -45,8 +45,8 @@ export class TextNode {
     );
   }
 
-  updateColor(color: string): void {
-    this.node.updateColor(color);
+  updateColor(color: string): RenderItem {
+    return this.node.updateColor(color);
   }
 
   /**

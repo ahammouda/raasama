@@ -49,7 +49,7 @@ export class GridTable {
         this.gridMeta, 'n-head',
         this.x,
         this.y,
-        GridTable.COLOR_HIGHLIGHT,
+        GridTable.COLOR_HEADER,
         this.headerString, this.gridMeta.COORDINATE_WIDTH * 2 * this.nCols
       );
     }
@@ -69,13 +69,19 @@ export class GridTable {
     }
   }
 
-  highlightPoint(row: number, col: number) {
+  highlightPoint(row: number, col: number): Array<RenderItem> {
+    const items: Array<RenderItem> = [];
     if (!isNullOrUndefined(this.hCol)) {
-      this.gridPoints[this.hRow][this.hCol].updateColor(GridTable.COLOR_DEFAULT);
+      items.push(
+        this.gridPoints[this.hRow][this.hCol].updateColor(GridTable.COLOR_DEFAULT)
+      );
     }
     this.hRow = row;
     this.hCol = col;
-    this.gridPoints[this.hRow][this.hCol].updateColor(GridTable.COLOR_HIGHLIGHT);
+    items.push(
+      this.gridPoints[this.hRow][this.hCol].updateColor(GridTable.COLOR_HIGHLIGHT)
+    );
+    return items;
   }
 
   getRenderItems(): Array<RenderItem> {

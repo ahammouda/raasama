@@ -65,7 +65,8 @@ export class BarBox {
     const subN = key.includes('}') ? 3 : 0;
     /* TODO: Eventually resize height dynamically from the text that's drawn here */
     const buffer = 4;
-    this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (key.length - subN);
+    // TODO: Get rid of this for this: '-1' specific example
+    this.barX = this.x + this.gridMeta.COORDINATE_WIDTH * (key.length - subN - 1);
     this.nRows += 1;
 
     this.textItemKeys.push(

@@ -37,6 +37,7 @@ export class DrawReSimComponent implements OnInit {
   frames: Array<Frame>;
 
   frame0Data = {};
+  frameNData = {};
 
   constructor() {
     // Single box to fit uppercase font-size = 10
@@ -908,10 +909,8 @@ export class DrawReSimComponent implements OnInit {
   }
 
   /**
-   *  - TODO: Shift all nodes up for the 'final arrangement' and finish this frame
    *  - Expand label
-   *  - add in an empty bBox
-   *  - draw a csv file table */
+   */
   createFrame9(): Frame {
     const frame: Frame = new Frame();
 
@@ -919,7 +918,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT,
-      'blue', 'User', null, false
+      'blue', '-User-', null, false
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
@@ -931,7 +930,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT * 8,
-      'blue', 'Firm', null, false
+      'blue', '-Firm-', null, false
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
@@ -1020,7 +1019,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-0',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT,
-      'blue', 'User', null, false
+      'blue', '-User-', null, false
     );
     const textNodeTwo: TextNode = new TextNode(
       this.gridMeta, 'n-1',
@@ -1032,7 +1031,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-2',
       this.gridMeta.COORDINATE_WIDTH * 1,
       this.gridMeta.COORDINATE_HEIGHT * 8,
-      'blue', 'Firm', null, false
+      'blue', '-Firm-', null, false
     );
     const textNodeFour: TextNode = new TextNode(
       this.gridMeta, 'n-3',
@@ -1061,22 +1060,27 @@ export class DrawReSimComponent implements OnInit {
     const barBoxOne: BarBox = new BarBox(
       this.gridMeta, 'green', nodeOne
     );
-    barBoxOne.addRow('e_{0}', '{}');
+    barBoxOne.addRow('u\'_{0}', '{}');
 
     const barBoxTwo: BarBox = new BarBox(
       this.gridMeta, 'green', nodeTwo
     );
-    barBoxTwo.addRow('e_{0}', '{}');
+    barBoxTwo.addRow('p\'_{0}', '{}');
 
     const barBoxThree: BarBox = new BarBox(
       this.gridMeta, 'green', nodeThree
     );
-    barBoxThree.addRow('e_{0}', '{}');
+    barBoxThree.addRow('f\'_{0}', '{}');
 
     const barBoxFour: BarBox = new BarBox(
       this.gridMeta, 'green', nodeFour
     );
-    barBoxFour.addRow('e_{0}', '{}');
+    barBoxFour.addRow('t\'_{0}', '{}');
+
+    this.frameNData['barBoxOne'] = barBoxOne;
+    this.frameNData['barBoxTwo'] = barBoxTwo;
+    this.frameNData['barBoxThree'] = barBoxThree;
+    this.frameNData['barBoxFour'] = barBoxFour;
 
     const itemsFive: Array<RenderItem> = barBoxOne.getRenderItems();
     for (let i = 0; i < itemsFive.length; i++) {
@@ -1099,7 +1103,7 @@ export class DrawReSimComponent implements OnInit {
     }
 
     const gridTable: GridTable = new GridTable(
-      this.gridMeta, 4, 4,
+      this.gridMeta, 3, 4,
       this.gridMeta.COORDINATE_WIDTH * 22,
       this.gridMeta.COORDINATE_HEIGHT * 12,
       ['u', 'f', 'p', 't'], 'CSV File'
@@ -1112,6 +1116,166 @@ export class DrawReSimComponent implements OnInit {
     return frame;
   }
 
+  /**
+   *
+   * @param {number} row - zero indexed
+   * @param {number} col - zero indexed
+   * @returns {Frame}
+   */
+  getInterIterationFrame(row: number, col: number): Frame {
+    const frame: Frame = new Frame();
+    const COLUMN_HEADERS = ['u', 'f', 'p', 't'];
+
+    // Remove old BarBox elements
+    let barBoxOne: BarBox = this.frameNData['barBoxOne'];
+    let barBoxTwo: BarBox = this.frameNData['barBoxTwo'];
+    let barBoxThree: BarBox = this.frameNData['barBoxThree'];
+    let barBoxFour: BarBox = this.frameNData['barBoxFour'];
+
+    let itemsFive: Array<RenderItem> = barBoxOne.getRenderItems();
+    for (let i = 0; i < itemsFive.length; i++) {
+      frame.addRemoveElement(itemsFive[i]);
+    }
+
+    let itemsSix: Array<RenderItem> = barBoxTwo.getRenderItems();
+    for (let i = 0; i < itemsSix.length; i++) {
+      frame.addRemoveElement(itemsSix[i]);
+    }
+
+    let items0: Array<RenderItem> = barBoxThree.getRenderItems();
+    for (let i = 0; i < items0.length; i++) {
+      frame.addRemoveElement(items0[i]);
+    }
+
+    let items1: Array<RenderItem> = barBoxFour.getRenderItems();
+    for (let i = 0; i < items1.length; i++) {
+      frame.addRemoveElement(items1[i]);
+    }
+
+    // region Node Initialization (for refreshing barBoxes)
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT,
+      'blue', '-User-', null, false
+    );
+    const textNodeTwo: TextNode = new TextNode(
+      this.gridMeta, 'n-1',
+      this.gridMeta.COORDINATE_WIDTH * 10,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', 'UserProfile', null, false
+    );
+    const textNodeThree: TextNode = new TextNode(
+      this.gridMeta, 'n-2',
+      this.gridMeta.COORDINATE_WIDTH * 1,
+      this.gridMeta.COORDINATE_HEIGHT * 8,
+      'blue', '-Firm-', null, false
+    );
+    const textNodeFour: TextNode = new TextNode(
+      this.gridMeta, 'n-3',
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
+      'blue', '-Tag-', null, false
+    );
+
+    const nodeOne = textNodeOne.getNode();
+    nodeOne.x = nodeOne.x - this.gridMeta.X_ORIGIN;
+    nodeOne.y = nodeOne.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeTwo = textNodeTwo.getNode();
+    nodeTwo.x = nodeTwo.x - this.gridMeta.X_ORIGIN;
+    nodeTwo.y = nodeTwo.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeThree = textNodeThree.getNode();
+    nodeThree.x = nodeThree.x - this.gridMeta.X_ORIGIN;
+    nodeThree.y = nodeThree.y - this.gridMeta.Y_ORIGIN;
+
+    const nodeFour = textNodeFour.getNode();
+    nodeFour.x = nodeFour.x - this.gridMeta.X_ORIGIN;
+    nodeFour.y = nodeFour.y - this.gridMeta.Y_ORIGIN;
+    // endregion
+
+    /**************** Bar-Boxes ***********************************************/
+    // Overwrite old bar boxes
+    barBoxOne = new BarBox(
+      this.gridMeta, 'green', nodeOne
+    );
+    barBoxTwo = new BarBox(
+      this.gridMeta, 'green', nodeTwo
+    );
+    barBoxThree = new BarBox(
+      this.gridMeta, 'green', nodeThree
+    );
+    barBoxFour = new BarBox(
+      this.gridMeta, 'green', nodeFour
+    );
+
+    if (row > 0) {
+      for (let i = 0; i < row; i++) {
+        barBoxOne.addRow(`u'_{${i}} `, `{u_{${i}} }`);
+        barBoxTwo.addRow(`p'_{${i}} `, `{p_{${i}} }`);
+        barBoxThree.addRow(`f'_{${i}} `, `{f_{${i}} }`);
+        barBoxFour.addRow(`t'_{${i}} `, `{t_{${i}} }`);
+      }
+    }
+    if (col === 0) {
+      barBoxOne.addRow(`u'_{${row}} `, `{u_{${row}} }`);
+    } else if (col === 1) {
+      barBoxOne.addRow(`u'_{${row}} `, `{u_{${row}} }`);
+      barBoxThree.addRow(`f'_{${row}} `, `{f_{${row}} }`);
+    } else if (col === 2) {
+      barBoxOne.addRow(`u'_{${row}} `, `{u_{${row}} }`);
+      barBoxTwo.addRow(`p'_{${row}} `, `{p_{${row}} }`);
+      barBoxThree.addRow(`f'_{${row}} `, `{f_{${row}} }`);
+    } else if (col === 3) {
+      barBoxOne.addRow(`u'_{${row}} `, `{u_{${row}} }`);
+      barBoxTwo.addRow(`p'_{${row}} `, `{p_{${row}} }`);
+      barBoxThree.addRow(`f'_{${row}} `, `{f_{${row}} }`);
+      barBoxFour.addRow(`t'_{${row}} `, `{t_{${row}} }`);
+    }
+
+    // Store items to be removed in later iterations
+    this.frameNData['barBoxOne'] = barBoxOne;
+    this.frameNData['barBoxTwo'] = barBoxTwo;
+    this.frameNData['barBoxThree'] = barBoxThree;
+    this.frameNData['barBoxFour'] = barBoxFour;
+
+    // region BarBox RenderItems
+    itemsFive = barBoxOne.getRenderItems();
+    for (let i = 0; i < itemsFive.length; i++) {
+      frame.addItem(itemsFive[i]);
+    }
+
+    itemsSix = barBoxTwo.getRenderItems();
+    for (let i = 0; i < itemsSix.length; i++) {
+      frame.addItem(itemsSix[i]);
+    }
+
+    items0 = barBoxThree.getRenderItems();
+    for (let i = 0; i < items0.length; i++) {
+      frame.addItem(items0[i]);
+    }
+
+    items1 = barBoxFour.getRenderItems();
+    for (let i = 0; i < items1.length; i++) {
+      frame.addItem(items1[i]);
+    }
+    // endregion
+
+    const gridTable: GridTable = new GridTable(
+      this.gridMeta, 3, 4,
+      this.gridMeta.COORDINATE_WIDTH * 22,
+      this.gridMeta.COORDINATE_HEIGHT * 12,
+      COLUMN_HEADERS, 'CSV File'
+    );
+    const gridItems = gridTable.highlightPoint(row, col);
+    // const gridItems = gridTable.getRenderItems();
+    for (let i = 0; i < gridItems.length; i++) {
+      frame.addDelta(gridItems[i]);
+    }
+    return frame;
+  }
+
   ngOnInit() {
     this.svg = d3.select('div#re-sim')
       .append('svg')
@@ -1120,54 +1284,65 @@ export class DrawReSimComponent implements OnInit {
 
     this.frames = [];
 
-    this.frames.push(
-      this.createFrame0()
-    );
-    this.frames.push(
-      this.createFrame1()
-    );
-    this.frames.push(
-      this.createFrame2()
-    );
-    this.frames.push(
-      this.createFrame3()
-    );
-    this.frames.push(
-      this.createFrame4()
-    );
-    this.frames.push(
-      this.createFrame5()
-    );
-    this.frames.push(
-      this.createFrame5a()
-    );
-    this.frames.push(
-      this.createFrame6()
-    );
-    this.frames.push(
-      this.createFrame7()
-    );
-    this.frames.push(
-      this.createFrame8()
-    );
-    this.frames.push(
-      this.createFrame9()
-    );
+    // this.frames.push(
+    //   this.createFrame0()
+    // );
+    // this.frames.push(
+    //   this.createFrame1()
+    // );
+    // this.frames.push(
+    //   this.createFrame2()
+    // );
+    // this.frames.push(
+    //   this.createFrame3()
+    // );
+    // this.frames.push(
+    //   this.createFrame4()
+    // );
+    // this.frames.push(
+    //   this.createFrame5()
+    // );
+    // this.frames.push(
+    //   this.createFrame5a()
+    // );
+    // this.frames.push(
+    //   this.createFrame6()
+    // );
+    // this.frames.push(
+    //   this.createFrame7()
+    // );
+    // this.frames.push(
+    //   this.createFrame8()
+    // );
+    // this.frames.push(
+    //   this.createFrame9()
+    // );
     this.frames.push(
       this.createFrame10()
     );
+    let count = 0;
+    for (let i = 0; i < 3; i ++) {
+      for (let j = 0; j < 4; j++) {
+        this.frames.push(
+          this.getInterIterationFrame(i, j)
+        );
+        this.frames[count].setNext(this.frames[count + 1]);
+        count += 1;
+      }
+    }
 
-    this.frames[0].setNext(this.frames[1]);
-    this.frames[1].setNext(this.frames[2]);
-    this.frames[2].setNext(this.frames[3]);
-    this.frames[3].setNext(this.frames[4]);
-    this.frames[4].setNext(this.frames[5]);
-    this.frames[5].setNext(this.frames[6]);
-    this.frames[6].setNext(this.frames[7]);
-    this.frames[7].setNext(this.frames[8]);
-    this.frames[8].setNext(this.frames[9]);
-    this.frames[9].setNext(this.frames[10]);
-    this.frames[10].setNext(this.frames[11]);
+    // this.frames[0].setNext(this.frames[1]);
+    // this.frames[1].setNext(this.frames[2]);
+    // this.frames[2].setNext(this.frames[3]);
+    // this.frames[3].setNext(this.frames[4]);
+    // this.frames[4].setNext(this.frames[5]);
+    // this.frames[5].setNext(this.frames[6]);
+    // this.frames[6].setNext(this.frames[7]);
+    // this.frames[7].setNext(this.frames[8]);
+    // this.frames[8].setNext(this.frames[9]);
+    // this.frames[9].setNext(this.frames[10]);
+    // this.frames[10].setNext(this.frames[11]);
+    // this.frames[11].setNext(this.frames[12]);
 
     this.frames[0].render();
     this.frames[0].transition();
