@@ -938,7 +938,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 22,
       this.gridMeta.COORDINATE_HEIGHT * 2,
-      'blue', '-Tag-', null, false
+      'blue', '--Tag---', null, false
     );
 
     const items = textNodeOne.getRenderItems();
@@ -1039,7 +1039,7 @@ export class DrawReSimComponent implements OnInit {
       this.gridMeta, 'n-3',
       this.gridMeta.COORDINATE_WIDTH * 22,
       this.gridMeta.COORDINATE_HEIGHT * 2,
-      'blue', '-Tag-', null, false
+      'blue', '--Tag---', null, false
     );
 
     const nodeOne = textNodeOne.getNode();
@@ -1375,49 +1375,62 @@ export class DrawReSimComponent implements OnInit {
 
     this.frames = [];
 
-    // this.frames.push(
-    //   this.createFrame0()
-    // );
-    // this.frames.push(
-    //   this.createFrame1()
-    // );
-    // this.frames.push(
-    //   this.createFrame2()
-    // );
-    // this.frames.push(
-    //   this.createFrame3()
-    // );
-    // this.frames.push(
-    //   this.createFrame4()
-    // );
-    // this.frames.push(
-    //   this.createFrame5()
-    // );
-    // this.frames.push(
-    //   this.createFrame5a()
-    // );
-    // this.frames.push(
-    //   this.createFrame6()
-    // );
-    // this.frames.push(
-    //   this.createFrame7()
-    // );
-    // this.frames.push(
-    //   this.createFrame8()
-    // );
-    // this.frames.push(
-    //   this.createFrame9()
-    // );
+    this.frames.push(
+      this.createFrame0()
+    );
+    this.frames.push(
+      this.createFrame1()
+    );
+    this.frames.push(
+      this.createFrame2()
+    );
+    this.frames.push(
+      this.createFrame3()
+    );
+    this.frames.push(
+      this.createFrame4()
+    );
+    this.frames.push(
+      this.createFrame5()
+    );
+    this.frames.push(
+      this.createFrame5a()
+    );
+    this.frames.push(
+      this.createFrame6()
+    );
+    this.frames.push(
+      this.createFrame7()
+    );
+    this.frames.push(
+      this.createFrame8()
+    );
+    this.frames.push(
+      this.createFrame9()
+    );
     this.frames.push(
       this.createFrame10()
     );
-    let count = 0;
+    this.frames[0].setNext(this.frames[1]);
+    this.frames[1].setNext(this.frames[2]);
+    this.frames[2].setNext(this.frames[3]);
+    this.frames[3].setNext(this.frames[4]);
+    this.frames[4].setNext(this.frames[5]);
+    this.frames[5].setNext(this.frames[6]);
+    this.frames[6].setNext(this.frames[7]);
+    this.frames[7].setNext(this.frames[8]);
+    this.frames[8].setNext(this.frames[9]);
+    this.frames[9].setNext(this.frames[10]);
+    // this.frames[10].setNext(this.frames[11]);
+    // this.frames[11].setNext(this.frames[12]);
+
+    let count = 10;
     for (let i = 0; i < 3; i ++) { // 3
       for (let j = 0; j < 4; j++) {
         this.frames.push(
           this.getInterIterationFrame(i, j)
         );
-        this.frames[count].setNext(this.frames[count + 1]);
+        this.frames[count].setNext(this.frames[count + 1]); // count+1 is always the current element at this point
         count += 1;
       }
     }
@@ -1431,19 +1444,8 @@ export class DrawReSimComponent implements OnInit {
     );
     this.frames[count].setNext(this.frames[count + 1]);
     count += 1;
+    this.frames[count].setNext(this.frames[count + 1]);
 
-    // this.frames[0].setNext(this.frames[1]);
-    // this.frames[1].setNext(this.frames[2]);
-    // this.frames[2].setNext(this.frames[3]);
-    // this.frames[3].setNext(this.frames[4]);
-    // this.frames[4].setNext(this.frames[5]);
-    // this.frames[5].setNext(this.frames[6]);
-    // this.frames[6].setNext(this.frames[7]);
-    // this.frames[7].setNext(this.frames[8]);
-    // this.frames[8].setNext(this.frames[9]);
-    // this.frames[9].setNext(this.frames[10]);
-    // this.frames[10].setNext(this.frames[11]);
-    // this.frames[11].setNext(this.frames[12]);
 
     this.frames[0].render();
     this.frames[0].transition();
