@@ -19,6 +19,8 @@ export class TextItem {
   incX: number;
   textRenderItems: Array<RenderItem>;
 
+  rootRenderItem: RenderItem;
+
   constructor(id: string, x: number, y: number, textContent: string, textAnchor: string = 'middle') {
     this.id = id;
     this.x = x;
@@ -58,14 +60,14 @@ export class TextItem {
       const endI: number = searchString.search( /}/);
 
       // Create 2 RenderItems for tspan
-      const textItem = new RenderItem(`t-${this.incX}-${this.id}`, 'svg', 'text');
+      const textItem = new RenderItem(`t-${this.incX}-${this.id}`, `svg g#${this.id}`, 'text');
       textItem.addAttr('x', this.x + this.incX);
       textItem.addAttr('y', this.y);
       textItem.addAttr('text-anchor', this.textAnchor);
       textItem.addAttr('font-size', TextItem.FONT_SIZE);
       textItem.setText( searchString.substring(0, idx) );
 
-      const spanItem = new RenderItem(`d-${this.incX}-${this.id}`, `svg text#t-${this.incX}-${this.id}`, 'tspan');
+      const spanItem = new RenderItem(`d-${this.incX}-${this.id}`, `svg g#${this.id} text#t-${this.incX}-${this.id}`, 'tspan');
       spanItem.addAttr('baseline-shift', baselineShift);
       spanItem.addAttr('font-size', TextItem.SUBSCRIPT_SIZE);
       spanItem.setText( this.cleanString( searchString.substring(idx, endI + 1) ) );
@@ -80,19 +82,30 @@ export class TextItem {
         return [textItem, spanItem];
       }
     } else {
-      const textItem = new RenderItem(this.id, 'svg', 'text');
+      const textItem = new RenderItem(`t-${this.incX}-${this.id}`, `svg g#${this.id}`, 'text');
       textItem.addAttr('x', this.x + this.incX);
       textItem.addAttr('y', this.y);
       textItem.addAttr('text-anchor', this.textAnchor);
       // textItem.addAttr('font-size', TextItem.FONT_SIZE);
       textItem.setText( searchString );
+      // if (searchString !== '') {
+      this.incX += TextItem.GRID_META_COORD_WIDTH * searchString.length;
+      // }
       return [textItem];
     }
   }
 
   getRenderItems(): Array<RenderItem> {
     this.incX = 0;
-    return this.getSubRenderItems( this.textContent );
+
+    this.rootRenderItem = new RenderItem(this.id, 'svg', 'g');
+
+    return _.concat([this.rootRenderItem], this.getSubRenderItems( this.textContent ) );
+  }
+
+  appendLabel(moreLabel: string): Array<RenderItem> {
+    this.textContent = this.textContent + moreLabel;
+    return this.getSubRenderItems(moreLabel);
   }
 
   // getRenderItem(): RenderItem {

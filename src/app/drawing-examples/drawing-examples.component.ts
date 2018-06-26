@@ -34,6 +34,8 @@ export class DrawingExamplesComponent implements OnInit {
 
   svg: any; // SVG Grid to render objects onto
 
+  frameData = {};
+
   constructor() {
     // Single box to fit uppercase font-size = 16
     this.gridMeta = {
@@ -122,32 +124,70 @@ export class DrawingExamplesComponent implements OnInit {
   //   return testFrame;
   // }
 
+  // createTestFrame(): Frame {
+  //   const testFrame = new Frame();
+  //
+  //   // const textNodeOne: TextNode = new TextNode(
+  //   //   this.gridMeta, 'n-0',
+  //   //   this.gridMeta.COORDINATE_WIDTH * 2,
+  //   //   0,
+  //   //   'blue', 'I_{0,0}'
+  //   // );
+  //   //
+  //   // const items = textNodeOne.getRenderItems();
+  //   // for (let i = 0; i < items.length; i++) {
+  //   //   testFrame.addItem(items[i]);
+  //   // }
+  //
+  //   const gridTable: GridTable = new GridTable(
+  //     this.gridMeta, 4, 4, 50, 50, ['u', 'f', 'p', 't'], 'CSV File'
+  //   );
+  //   gridTable.highlightPoint(2, 2);
+  //   const items = gridTable.getRenderItems();
+  //   for (let i = 0; i < items.length; i++) {
+  //     testFrame.addItem(items[i]);
+  //   }
+  //
+  //   return testFrame;
+  // }
+
   createTestFrame(): Frame {
+    const testFrame = new Frame();
+
+    const textNodeOne: TextNode = new TextNode(
+      this.gridMeta, 'n-0',
+      this.gridMeta.COORDINATE_WIDTH * 2,
+      0,
+      'blue', 'I_{0}'
+    );
+
+    this.frameData['textNode'] = textNodeOne;
+
+    const items = textNodeOne.getRenderItems();
+    for (let i = 0; i < items.length; i++) {
+      testFrame.addItem(items[i]);
+    }
+    return testFrame;
+  }
+
+  createTestFrameI(iter: number): Frame {
     const testFrame = new Frame();
 
     // const textNodeOne: TextNode = new TextNode(
     //   this.gridMeta, 'n-0',
     //   this.gridMeta.COORDINATE_WIDTH * 2,
     //   0,
-    //   'blue', 'I_{0,0}'
+    //   'blue', 'I_{0},I_{1}'
     // );
-    //
-    // const items = textNodeOne.getRenderItems();
-    // for (let i = 0; i < items.length; i++) {
-    //   testFrame.addItem(items[i]);
-    // }
 
-    const gridTable: GridTable = new GridTable(
-      this.gridMeta, 4, 4, 50, 50, ['u', 'f', 'p', 't'], 'CSV File'
-    );
-    gridTable.highlightPoint(2, 2);
-    const items = gridTable.getRenderItems();
+    // const items = textNodeOne.getRenderItems();
+    const items = this.frameData['textNode'].appendLabel(',I_{1}');
     for (let i = 0; i < items.length; i++) {
       testFrame.addItem(items[i]);
     }
-
     return testFrame;
   }
+
 
   ngOnInit() {
     this.svg = d3.select('div#d3-draw-egs')
@@ -156,6 +196,10 @@ export class DrawingExamplesComponent implements OnInit {
       .classed('svg-content', true);
 
     const frame: Frame = this.createTestFrame();
+    const frame2: Frame = this.createTestFrameI(0);
+    frame.setNext(frame2);
+
     frame.render();
+    frame.transition();
   }
 }

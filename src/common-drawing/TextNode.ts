@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { GridMeta } from './GridMeta';
 import { Node } from './Node';
 import { TextItem } from './TextItem';
@@ -17,10 +19,14 @@ export class TextNode {
   private nodeHeight: number; // Text-Node height
   private nodeWidth: number;
 
+  private textLabel: string;
+
   constructor(gridMeta: GridMeta, nodeId: string, x: number, y: number, color: string, textLabel: string,
               width: number = null, isRounded: boolean = false) {
     this.gridMeta = gridMeta;
     this.nodeHeight = 2 * this.gridMeta.COORDINATE_HEIGHT;
+    this.textLabel = textLabel;
+
     if (isNullOrUndefined(width)) {
       this.nodeWidth = this.getWidth(textLabel);
     } else {
@@ -43,6 +49,13 @@ export class TextNode {
       y + this.gridMeta.Y_ORIGIN + this.nodeHeight / 2 + TextNode.CENTER_PADDING,
       textLabel
     );
+  }
+
+  appendLabel(extraString: string): Array<RenderItem> {
+    // TODO: If this method proves useful, make sure you are updating the width of things as well
+    // this.nodeWidth = this.getWidth(this.textLabel + extraString);
+    // return _.concat([this.node.updateWidth()], this.textItem.appendLabel(extraString) );
+    return this.textItem.appendLabel(extraString);
   }
 
   updateColor(color: string): RenderItem {
