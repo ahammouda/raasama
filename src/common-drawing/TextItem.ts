@@ -73,7 +73,7 @@ export class TextItem {
       spanItem.setText( this.cleanString( searchString.substring(idx, endI + 1) ) );
 
       // TODO: Update spacing numbers -- this seems to overshoot a bit (??)
-      this.incX += TextItem.GRID_META_COORD_WIDTH * idx;
+      this.incX += (TextItem.GRID_META_COORD_WIDTH / 2) * idx;
       if (endI + 1 < n) {
         return _.concat([textItem, spanItem],
           this.getSubRenderItems(searchString.substring(endI + 1))
@@ -89,7 +89,7 @@ export class TextItem {
       // textItem.addAttr('font-size', TextItem.FONT_SIZE);
       textItem.setText( searchString );
       // if (searchString !== '') {
-      this.incX += TextItem.GRID_META_COORD_WIDTH * searchString.length;
+      this.incX += (TextItem.GRID_META_COORD_WIDTH / 2) * searchString.length;
       // }
       return [textItem];
     }
@@ -104,6 +104,7 @@ export class TextItem {
   }
 
   appendLabel(moreLabel: string): Array<RenderItem> {
+    this.textAnchor = 'start';
     this.textContent = this.textContent + moreLabel;
     return this.getSubRenderItems(moreLabel);
   }

@@ -46,7 +46,7 @@ export class DrawReSimComponent implements OnInit {
     this.gridMeta = {
       X_ORIGIN: DrawReSimComponent.XORIG,
       Y_ORIGIN: DrawReSimComponent.YORIG,
-      COORDINATE_WIDTH: 22,
+      COORDINATE_WIDTH: 16,
       COORDINATE_HEIGHT: 22
     };
 
