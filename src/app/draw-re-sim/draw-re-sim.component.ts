@@ -1106,8 +1106,8 @@ export class DrawReSimComponent implements OnInit {
 
     const gridTable: GridTable = new GridTable(
       this.gridMeta, 3, 4,
-      this.gridMeta.COORDINATE_WIDTH * 22,
-      this.gridMeta.COORDINATE_HEIGHT * 12,
+      this.gridMeta.COORDINATE_WIDTH * 32,
+      this.gridMeta.COORDINATE_HEIGHT * 2,
       ['u', 'f', 'p', 't'], 'CSV File'
     );
     // gridTable.highlightPoint(2, 2);
