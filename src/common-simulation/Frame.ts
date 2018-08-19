@@ -3,6 +3,7 @@ import { RenderItem } from './RenderItem';
 import * as d3 from 'd3';
 
 import { isNullOrUndefined } from 'util';
+import { Deferred } from 'ts-deferred';
 
 
 export class Frame {
@@ -19,6 +20,8 @@ export class Frame {
 
   private nextFrame: Frame;
   private lastFrame: Frame;
+
+  private renderPromises: Array<Promise<Boolean>> = [];
 
   constructor(renderItems?: Array<RenderItem>) {
     if (!isNullOrUndefined(renderItems)) {
@@ -65,7 +68,7 @@ export class Frame {
     if ( !isNullOrUndefined(this.renderDeltas) ) {
 
       for (const idAccessor in this.renderDeltas) {
-        if (this.renderDeltas.hasOwnProperty(idAccessor)) {
+        if (this.renderDeltas.hasOwnProperty(idAccessor)) { // Maybe use lodash here for more succinct access
 
           selection = d3.select(idAccessor)
             .transition()
@@ -91,8 +94,11 @@ export class Frame {
       if ( !isNullOrUndefined(this.nextFrame) && !isNullOrUndefined(selection) ) {
         // THERE ARE not renderDeltas here, but there are pruneDeltas
         // TODO: Control this externally either by passing in the callback or some other mechanism
+        const deferred = new Deferred<Boolean>();
+        this.renderPromises.push(deferred.promise);
         selection.on(
           'end', function () {
+            deferred.resolve(true);
             // TODO: Right now you're only triggering this for the very last selection that gets instantiated in this loop
             // TODO) you should call a .on( function for each selection, which increments a counter;
             // TODO) when this counter === nDeltas ( or nDeltas - 1), THEN trigger this.nextFrame.render();
@@ -121,6 +127,7 @@ export class Frame {
         }.bind(this), Frame.DELAY );
       }
     } else {
+      // This is often a base case -- initially Frame may only renderItems (deltas come in later frames)
       if (!isNullOrUndefined(this.nextFrame)) {
         setTimeout(function() {
           this.nextFrame.pruneItems();
@@ -134,5 +141,6 @@ export class Frame {
         }.bind(this), Frame.DELAY );
       }
     }
+    return this.renderPromises;
   } // End transition()
 }

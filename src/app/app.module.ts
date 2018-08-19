@@ -7,13 +7,15 @@ import { AlgoSimComponent } from './algo-sim/algo-sim.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { DrawingExamplesComponent } from './drawing-examples/drawing-examples.component';
 import { DrawReSimComponent } from './draw-re-sim/draw-re-sim.component';
+import { ReactiveComponent } from './reactive/reactive.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlgoSimComponent,
     DrawingExamplesComponent,
-    DrawReSimComponent
+    DrawReSimComponent,
+    ReactiveComponent
   ],
   imports: [
     BrowserModule,
