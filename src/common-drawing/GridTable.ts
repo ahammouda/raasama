@@ -69,13 +69,9 @@ export class GridTable {
     }
   }
 
+  // TODO: Add an option to recolor all other gridPoints with COLOR_DEFAULT
   highlightPoint(row: number, col: number): Array<RenderItem> {
     const items: Array<RenderItem> = [];
-    if (!isNullOrUndefined(this.hCol)) {
-      items.push(
-        this.gridPoints[this.hRow][this.hCol].updateColor(GridTable.COLOR_DEFAULT)
-      );
-    }
     this.hRow = row;
     this.hCol = col;
     items.push(

@@ -9,6 +9,9 @@ import { Deferred } from 'ts-deferred';
 export class Frame {
   private static DURATION = 1000;
   private static DELAY = 1000;
+
+  public id: number;
+
   // Any new SVG or DOM objects to be rendered in this frame using d3 are stored here
   private renderItems: Array<RenderItem> = [];
 
@@ -19,14 +22,20 @@ export class Frame {
   private removeDeltas: Array<RenderItem> = [];
 
   private nextFrame: Frame;
-  private lastFrame: Frame;
 
   private renderPromises: Array<Promise<Boolean>> = [];
+  private renderDeferreds: Array<Deferred<Boolean>> = [];
+
+  private deferred: Deferred<Boolean>;
 
   constructor(renderItems?: Array<RenderItem>) {
     if (!isNullOrUndefined(renderItems)) {
       this.renderItems = renderItems;
     }
+  }
+
+  setId(id: number) {
+    this.id = id;
   }
 
   addItem(item: RenderItem) {
@@ -62,15 +71,13 @@ export class Frame {
   }
 
   transition() {
-    // TODO: Need an additional loop to transition any remove items separately -- will be same as the below, only
-    // TODO) inner .attr('','') will be replaced with remove()
-    let selection;
+    // Define d3 transitions for all deltas defined in this Frame, and register their completion in a promise
     if ( !isNullOrUndefined(this.renderDeltas) ) {
 
       for (const idAccessor in this.renderDeltas) {
-        if (this.renderDeltas.hasOwnProperty(idAccessor)) { // Maybe use lodash here for more succinct access
+        if (this.renderDeltas.hasOwnProperty(idAccessor)) {
 
-          selection = d3.select(idAccessor)
+          const selection = d3.select(idAccessor)
             .transition()
             .duration(Frame.DURATION)
             .delay(Frame.DELAY);
@@ -85,62 +92,49 @@ export class Frame {
             }
           }
 
-          if (! isNullOrUndefined(this.renderDeltas[idAccessor].textAttr) ) {
-            selection.text( this.renderDeltas[idAccessor].textAttr );
+          if (!isNullOrUndefined(this.renderDeltas[idAccessor].textAttr)) {
+            selection.text(this.renderDeltas[idAccessor].textAttr);
           }
+
+          // ********* Attach a promise resolution to the end of each transition event *********
+          const deferred = new Deferred<Boolean>();
+          this.renderDeferreds.push(deferred);
+
+          selection.on('end', function () {
+            deferred.resolve(true);
+          }.bind(this));
+
+          this.renderPromises.push(
+            deferred.promise
+          );
 
         }
       }
-      if ( !isNullOrUndefined(this.nextFrame) && !isNullOrUndefined(selection) ) {
-        // THERE ARE not renderDeltas here, but there are pruneDeltas
-        // TODO: Control this externally either by passing in the callback or some other mechanism
-        const deferred = new Deferred<Boolean>();
-        this.renderPromises.push(deferred.promise);
-        selection.on(
-          'end', function () {
-            deferred.resolve(true);
-            // TODO: Right now you're only triggering this for the very last selection that gets instantiated in this loop
-            // TODO) you should call a .on( function for each selection, which increments a counter;
-            // TODO) when this counter === nDeltas ( or nDeltas - 1), THEN trigger this.nextFrame.render();
-            //        <-- You'll need to figure out what the javascript equivalent for making the variable atomic is
-            // See: https://stackoverflow.com/questions/41734921/rxjs-wait-for-all-observables-in-an-array-to-complete-or-error/41735096
-            // AND: https://stackoverflow.com/questions/44004144/how-to-wait-for-two-observables-in-rxjs
-            this.nextFrame.pruneItems();
-
-            // This is starting to feel a bit fraught
-            setTimeout(function() {
-              this.nextFrame.render();
-            }.bind(this), Frame.DELAY );
-
-            this.nextFrame.transition();
-          }.bind(this));
-      } else if ( !isNullOrUndefined(this.nextFrame) && isNullOrUndefined(selection) ) {
-        setTimeout(function() {
-          this.nextFrame.pruneItems();
-
-          // This is starting to feel a bit fraught
-          setTimeout(function() {
-            this.nextFrame.render();
-          }.bind(this), Frame.DELAY );
-
-          this.nextFrame.transition();
-        }.bind(this), Frame.DELAY );
-      }
-    } else {
-      // This is often a base case -- initially Frame may only renderItems (deltas come in later frames)
-      if (!isNullOrUndefined(this.nextFrame)) {
-        setTimeout(function() {
-          this.nextFrame.pruneItems();
-
-          // This is starting to feel a bit fraught
-          setTimeout(function() {
-            this.nextFrame.render();
-          }.bind(this), Frame.DELAY );
-
-          this.nextFrame.transition();
-        }.bind(this), Frame.DELAY );
-      }
     }
-    return this.renderPromises;
+
+    // After all previous transition 'end' events have been fired, draw/transition the next frame
+    if (!isNullOrUndefined(this.nextFrame)) {
+      Promise.all(this.renderPromises).then(() => {
+
+        this.executeNext();
+
+      }).catch( (error) => {
+        console.log(error);
+      });
+    }
+
   } // End transition()
+
+  executeNext(): void {
+    // Remove old elements
+    this.nextFrame.pruneItems();
+
+    // Render new svg/html elements:
+    // N.B:  if render is delayed, transition should be too, in order to avoid a race condition
+    //       (transition on item not yet rendered attempts to get scheduled)
+    this.nextFrame.render();
+
+    // Begin the transition of already rendered elements
+    this.nextFrame.transition();
+  }
 }

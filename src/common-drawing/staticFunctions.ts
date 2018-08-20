@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import {GridPoint} from './GridPoint';
 
-// TODO: This all seems suboptimal -- should explore other solutions
+// TODO: These function definitions seem a bit wonky -- explore alternatives
 export function straightLine(points: Array<GridPoint>) {
   const tmpFunc = d3.line()
     .x(function (d) {

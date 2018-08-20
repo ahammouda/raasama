@@ -1335,39 +1335,63 @@ export class DrawReSimComponent implements OnInit {
     this.frames.push(
       this.createFrame0()
     );
+    this.frames[0].setId(0);
+
     this.frames.push(
       this.createFrame1()
     );
+    this.frames[1].setId(1);
+
     this.frames.push(
       this.createFrame2()
     );
+    this.frames[2].setId(2);
+
     this.frames.push(
       this.createFrame3()
     );
+    this.frames[3].setId(3);
+
     this.frames.push(
       this.createFrame4()
     );
+    this.frames[4].setId(4);
+
     this.frames.push(
       this.createFrame5()
     );
+    this.frames[5].setId(5);
+
     this.frames.push(
       this.createFrame5a()
     );
+    this.frames[6].setId(6);
+
     this.frames.push(
       this.createFrame6()
     );
+    this.frames[7].setId(7);
+
     this.frames.push(
       this.createFrame7()
     );
+    this.frames[8].setId(8);
+
     this.frames.push(
       this.createFrame8()
     );
+    this.frames[9].setId(9);
+
     this.frames.push(
       this.createFrame9()
     );
+    this.frames[10].setId(10);
+
     this.frames.push(
       this.createFrame10()
     );
+    this.frames[11].setId(11);
+
     this.frames[0].setNext(this.frames[1]);
     this.frames[1].setNext(this.frames[2]);
     this.frames[2].setNext(this.frames[3]);
@@ -1378,15 +1402,16 @@ export class DrawReSimComponent implements OnInit {
     this.frames[7].setNext(this.frames[8]);
     this.frames[8].setNext(this.frames[9]);
     this.frames[9].setNext(this.frames[10]);
-    // this.frames[10].setNext(this.frames[11]);
+    this.frames[10].setNext(this.frames[11]);
     // this.frames[11].setNext(this.frames[12]);
 
-    let count = 10;
+    let count = 11;
     for (let i = 0; i < 3; i ++) { // 3
       for (let j = 0; j < 4; j++) {
         this.frames.push(
           this.getInterIterationFrame(i, j)
         );
+        this.frames[count + 1].setId(count + 1);
         this.frames[count].setNext(this.frames[count + 1]); // count+1 is always the current element at this point
         count += 1;
       }
@@ -1394,15 +1419,16 @@ export class DrawReSimComponent implements OnInit {
     this.frames.push(
       this.getInterMidFinalFrame()
     );
+    this.frames[count + 1].setId(count + 1);
     this.frames[count].setNext(this.frames[count + 1]);
     count += 1;
     this.frames.push(
       this.getFinalFrame()
     );
+    this.frames[count + 1].setId(count + 1);
     this.frames[count].setNext(this.frames[count + 1]);
     count += 1;
     this.frames[count].setNext(this.frames[count + 1]);
-
 
     this.frames[0].render();
     this.frames[0].transition();
